@@ -1,0 +1,51 @@
+{
+  "name": "monex",
+  "description": "Execute a script and restart it whenever it crashes or a watched file changes.",
+  "version": "1.0.0",
+  "bin": "dist/src/bin/index.js",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "scripts": {
+    "clean": "rimraf dist",
+    "compile": "tsc --skipLibCheck && tstei",
+    "compile:watch": "tsc --skipLibCheck --watch",
+    "test": "node dist/src/bin/index.js --watch dist --ignore '**/bin/**' --exec 'node test/index.js'",
+    "prepublishOnly": "npm run clean && npm run compile"
+  },
+  "bugs": {
+    "url": "https://github.com/fabiospampinato/monex/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Fabio Spampinato",
+    "email": "spampinabio@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fabiospampinato/monex.git"
+  },
+  "keywords": [
+    "execute",
+    "watch",
+    "restart",
+    "cli",
+    "reload",
+    "tiny",
+    "monitor"
+  ],
+  "dependencies": {
+    "debounce": "^1.2.1",
+    "picomatch": "^2.2.3",
+    "signal-exit": "^3.0.3",
+    "specialist": "^0.3.0",
+    "watcher": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^15.0.3",
+    "@types/picomatch": "^2.2.4",
+    "@types/signal-exit": "^3.0.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.2.4",
+    "typescript-transform-export-interop": "^1.0.4"
+  }
+}
