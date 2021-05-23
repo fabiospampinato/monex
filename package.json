@@ -35,6 +35,7 @@
   ],
   "dependencies": {
     "picomatch": "^2.2.3",
+    "pidtree": "^0.5.0",
     "signal-exit": "^3.0.3",
     "specialist": "^0.3.0",
     "watcher": "^1.2.0"

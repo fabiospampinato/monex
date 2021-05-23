@@ -8,6 +8,7 @@ import onExit from 'signal-exit';
 import {color} from 'specialist';
 import Watcher from 'watcher';
 import {Options} from './types';
+import PID from './pid';
 
 /* MAIN */
 
@@ -33,30 +34,27 @@ class Controller {
 
   /* HELPERS */
 
-  private _processKill () {
+  private _processKill = (): void => {
 
     const {process} = this;
 
+    if ( !process ) return;
+
     this.process = undefined;
 
-    process?.kill ( 'SIGTERM' );
-
-    setTimeout ( () => {
-
-      process?.kill ( 'SIGKILL' );
-      process?.kill ( 'SIGKILL' );
-
-    }, 3000 );
+    PID.tree.kill ( process.pid, process['pids'] || [process.pid] );
 
   }
 
-  private _watcherKill () {
+  private _watcherKill = (): void => {
 
     const {watcher} = this;
 
+    if ( !watcher ) return;
+
     this.watcher = undefined;
 
-    watcher?.close ();
+    watcher.close ();
 
   }
 
@@ -83,10 +81,25 @@ class Controller {
       shell: true
     });
 
+    const updatePids = async (): Promise<void> => {
+      if ( this.process !== proc ) return;
+      const pids = await PID.tree.get ( proc.pid );
+      proc['pids'] = pids || proc['pids'];
+    };
+
+    const kill = (): void => {
+      clearInterval ( pidsInterval );
+      PID.tree.kill ( proc.pid, proc['pids'] || [proc.pid] );
+    };
+
     const restart = (): void => {
-      if ( this.process !== proc ) return void proc.kill ( 'SIGKILL' );
+      if ( this.process !== proc ) return kill ();
       this.restart ();
     };
+
+    const pidsInterval = setInterval ( updatePids, 1000 );
+
+    updatePids ();
 
     proc.on ( 'close', restart );
     proc.on ( 'error', restart );

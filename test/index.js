@@ -1,5 +1,9 @@
 
+const {spawn} = require ( 'child_process' );
+
 console.log ( 'Child started...', Date.now () );
+
+spawn ( 'while sleep 1; do echo "Subchild echoing..."; done', { stdio: 'inherit', shell: true } );
 
 setInterval ( () => {
 
