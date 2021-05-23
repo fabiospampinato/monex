@@ -76,7 +76,7 @@ class Controller {
 
     if ( this.process ) return this;
 
-    console.log ( color.yellow ( `[Monex] ${this.name ? `${this.name} - ` : ''}Starting...` ) );
+    console.log ( `[monex] ${this.name ? `${color.bold ( this.name )} - ` : ''}Starting...` );
 
     const proc = this.process = spawn ( this.options.exec, {
       stdio: ['pipe', 'inherit', 'inherit'],
