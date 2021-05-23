@@ -2,7 +2,6 @@
 /* IMPORT */
 
 import {spawn, ChildProcess} from 'child_process';
-import debounce from 'debounce';
 import path from 'path';
 import picomatch from 'picomatch';
 import onExit from 'signal-exit';
@@ -30,12 +29,40 @@ class Controller {
 
   }
 
+  /* HELPERS */
+
+  private _processKill () {
+
+    const {process} = this;
+
+    this.process = undefined;
+
+    process?.kill ( 'SIGTERM' );
+
+    setTimeout ( () => {
+
+      process?.kill ( 'SIGKILL' );
+      process?.kill ( 'SIGKILL' );
+
+    }, 3000 );
+
+  }
+
+  private _watcherKill () {
+
+    const {watcher} = this;
+
+    this.watcher = undefined;
+
+    watcher?.close ();
+
+  }
+
   /* API */
 
   restart = (): this => {
 
-    this.process?.kill ();
-    this.process = undefined;
+    this._processKill ();
 
     this.start ();
 
@@ -45,6 +72,8 @@ class Controller {
 
   start = (): this => {
 
+    if ( this.process ) return this;
+
     console.log ( color.yellow ( `[Monex] Starting...` ) );
 
     const proc = this.process = spawn ( this.options.exec, {
@@ -52,10 +81,10 @@ class Controller {
       shell: true
     });
 
-    const restart = debounce ( (): void => {
-      if ( this.process !== proc ) return;
+    const restart = (): void => {
+      if ( this.process !== proc ) return void proc.kill ( 'SIGKILL' );
       this.restart ();
-    }, 500 );
+    };
 
     proc.on ( 'close', restart );
     proc.on ( 'error', restart );
@@ -74,11 +103,8 @@ class Controller {
 
   stop = (): this => {
 
-    this.process?.kill ();
-    this.process = undefined;
-
-    this.watcher?.close ();
-    this.watcher = undefined;
+    this._watcherKill ();
+    this._processKill ();
 
     return this;
 
@@ -96,16 +122,15 @@ class Controller {
 
     const ignore = ( targetPath: string ): boolean => matchers.some ( matcher => matcher ( targetPath ) );
 
-    const restart = debounce ( this.restart, 500, false );
-
     const options = {
       native: true,
       recursive: true,
       ignoreInitial: true,
+      debounce: 1000,
       ignore
     };
 
-    this.watcher = new Watcher ( targetPaths, options, restart );
+    this.watcher = new Watcher ( targetPaths, options, this.restart );
 
     return this;
 

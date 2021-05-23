@@ -34,7 +34,6 @@
     "monitor"
   ],
   "dependencies": {
-    "debounce": "^1.2.1",
     "picomatch": "^2.2.3",
     "signal-exit": "^3.0.3",
     "specialist": "^0.3.0",
