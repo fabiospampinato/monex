@@ -16,6 +16,7 @@ class Controller {
   /* VARIABLES */
 
   options: Options;
+  name: string;
   process?: ChildProcess;
   watcher?: Watcher.type;
 
@@ -24,6 +25,7 @@ class Controller {
   constructor ( options: Options ) {
 
     this.options = options;
+    this.name = options.name || '';
 
     onExit ( this.stop );
 
@@ -74,7 +76,7 @@ class Controller {
 
     if ( this.process ) return this;
 
-    console.log ( color.yellow ( `[Monex] Starting...` ) );
+    console.log ( color.yellow ( `[Monex] ${this.name ? `${this.name} - ` : ''}Starting...` ) );
 
     const proc = this.process = spawn ( this.options.exec, {
       stdio: ['pipe', 'inherit', 'inherit'],

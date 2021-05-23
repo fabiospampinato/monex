@@ -9,7 +9,7 @@
     "clean": "rimraf dist",
     "compile": "tsc --skipLibCheck && tstei",
     "compile:watch": "tsc --skipLibCheck --watch",
-    "test": "node dist/src/bin/index.js --watch dist --ignore '**/bin/**' --exec 'node test/index.js'",
+    "test": "node dist/src/bin/index.js --name test --watch dist --ignore '**/bin/**' --exec 'node test/index.js'",
     "prepublishOnly": "npm run clean && npm run compile"
   },
   "bugs": {
