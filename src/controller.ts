@@ -2,6 +2,7 @@
 /* IMPORT */
 
 import {spawn, ChildProcess} from 'child_process';
+import debounce from 'debounce';
 import path from 'path';
 import picomatch from 'picomatch';
 import onExit from 'signal-exit';
@@ -92,10 +93,10 @@ class Controller {
       PID.tree.kill ( proc.pid, proc['pids'] || [proc.pid] );
     };
 
-    const restart = (): void => {
+    const restart = debounce ( (): void => {
       if ( this.process !== proc ) return kill ();
       this.restart ();
-    };
+    }, 500 );
 
     const pidsInterval = setInterval ( updatePids, 1000 );
 
@@ -137,6 +138,8 @@ class Controller {
 
     const ignore = ( targetPath: string ): boolean => matchers.some ( matcher => matcher ( targetPath ) );
 
+    const restart = debounce ( this.restart, 500 );
+
     const options = {
       native: true,
       recursive: true,
@@ -145,7 +148,7 @@ class Controller {
       ignore
     };
 
-    this.watcher = new Watcher ( targetPaths, options, this.restart );
+    this.watcher = new Watcher ( targetPaths, options, restart );
 
     return this;
 
