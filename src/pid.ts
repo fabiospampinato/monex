@@ -44,6 +44,8 @@ const PID = {
       setTimeout ( () => {
 
         PID.signal ( pid, 'SIGKILL' ); // No patience
+        PID.signal ( pid, 'SIGKILL' ); // No patience
+        PID.signal ( pid, 'SIGKILL' ); // No patience
 
       }, 2000 );
 
