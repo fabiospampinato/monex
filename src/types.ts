@@ -1,6 +1,12 @@
 
 /* TYPES */
 
+type Callback = () => void;
+
+type Disposer = Callback;
+
+type Event = 'restart';
+
 type IController = {
   restart: () => void,
   start: () => void,
@@ -23,4 +29,4 @@ type OptionsSingle = {
 
 /* EXPORT */
 
-export {IController, OptionsMultiple, OptionsSingle};
+export {Callback, Disposer, Event, IController, OptionsMultiple, OptionsSingle};

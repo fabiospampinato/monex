@@ -10,6 +10,7 @@ import {color} from 'specialist';
 import Watcher from 'watcher';
 import {OptionsSingle} from './types';
 import PID from './pid';
+import Stdin from './stdin';
 
 /* MAIN */
 
@@ -30,6 +31,8 @@ class ControllerSingle {
     this.name = options.name || '';
 
     onExit ( this.stop );
+
+    Stdin.onRestart ( this.restart );
 
   }
 
@@ -105,11 +108,6 @@ class ControllerSingle {
     proc.on ( 'close', restart );
     proc.on ( 'error', restart );
     proc.on ( 'exit', restart );
-
-    process.stdin.on ( 'data', data => { //TODO: move this above
-      if ( data.toString ().trim ().toLowerCase () !== 'rs' ) return;
-      restart ();
-    });
 
     this.watch ();
 
