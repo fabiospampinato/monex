@@ -11,9 +11,11 @@ const PID = {
 
   tree: {
 
-    get: async ( pid: number ): Promise<number[] | undefined> => {
+    get: async ( pid: number | undefined ): Promise<number[] | undefined> => {
 
       try {
+
+        if ( !pid ) return [];
 
         return await pidtree ( pid, { root: true } );
 
@@ -21,7 +23,9 @@ const PID = {
 
     },
 
-    kill: async ( pid: number, treeFallback: number[] = [pid] ): Promise<void> => {
+    kill: async ( pid: number | undefined, treeFallback: (number | undefined)[] = [pid] ): Promise<void> => {
+
+      if ( !pid ) return;
 
       const pids = await PID.tree.get ( pid ) || treeFallback;
 
