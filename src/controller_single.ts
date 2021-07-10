@@ -80,7 +80,9 @@ class ControllerSingle {
 
     console.log ( `[monex] ${this.name ? `${color.bold ( this.name )} - ` : ''}Starting...` );
 
-    const proc = this.process = spawn ( this.options.exec, {
+    const exec = this.options.exec.replace ( /^npm:/, 'npm run ' );
+
+    const proc = this.process = spawn ( exec, {
       stdio: ['pipe', 'inherit', 'inherit'],
       shell: true
     });

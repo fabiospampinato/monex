@@ -47,8 +47,9 @@ monex --name foo --watch pathToWatch --ignore globToIgnore --exec 'script to exe
   - Remember to quote globs otherwise they might get expanded by your shell, e.g. `'**/node_modules/**'`.
 - `--exec`:
   - It's required.
-  - You pass it a full-blown shell script to execute, with no magic whatsoever behind it, just write the full script you want to execute.
+  - You pass it a full-blown shell script to execute, with no magic behind it, just write the full script you want to execute.
   - You can execute multiple scripts by writing multiple scripts after `--exec` or by using the option multiple times.
+  - A shorthand notation for running NPM scripts is supported, `npm:foo` gets expanded automatically to `npm run foo`.
   - Remember to write the full script, e.g. `node path/to/script.js`.
   - Remember to quote the full script if it contains any whitespaces, e.g. `--exec 'node path/to/script.js'`.
 
