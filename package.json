@@ -1,6 +1,6 @@
 {
   "name": "monex",
-  "description": "Execute a script and restart it whenever it crashes or a watched file changes.",
+  "description": "Execute one or multiple scripts and restart them whenever they crash or a watched file changes.",
   "version": "1.1.2",
   "bin": "dist/src/bin/index.js",
   "main": "dist/src/index.js",
@@ -9,7 +9,8 @@
     "clean": "rimraf dist",
     "compile": "tsc --skipLibCheck && tstei",
     "compile:watch": "tsc --skipLibCheck --watch",
-    "test": "node dist/src/bin/index.js --name test --watch dist --ignore '**/bin/**' --exec 'node test/index.js'",
+    "test:single": "node dist/src/bin/index.js --name test --watch dist --ignore '**/bin/**' --exec 'node test/index.js'",
+    "test:multiple": "node dist/src/bin/index.js --name test1 test2 --watch dist --ignore '**/bin/**' --exec 'node test/index.js' 'node test/index.js'",
     "prepublishOnly": "npm run clean && npm run compile"
   },
   "bugs": {
@@ -31,23 +32,25 @@
     "cli",
     "reload",
     "tiny",
-    "monitor"
+    "monitor",
+    "single",
+    "multiple"
   ],
   "dependencies": {
     "debounce": "^1.2.1",
-    "picomatch": "^2.2.3",
+    "picomatch": "^2.3.0",
     "pidtree": "^0.5.0",
     "signal-exit": "^3.0.3",
-    "specialist": "^0.3.0",
+    "specialist": "^0.4.0",
     "watcher": "^1.2.0"
   },
   "devDependencies": {
     "@types/debounce": "^1.2.0",
     "@types/node": "^15.0.3",
-    "@types/picomatch": "^2.2.4",
-    "@types/signal-exit": "^3.0.0",
+    "@types/picomatch": "^2.2.5",
+    "@types/signal-exit": "^3.0.1",
     "rimraf": "^3.0.2",
-    "typescript": "^4.2.4",
+    "typescript": "^4.3.5",
     "typescript-transform-export-interop": "^1.0.4"
   }
 }

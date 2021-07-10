@@ -7,7 +7,14 @@ type IController = {
   stop: () => void
 };
 
-type Options = {
+type OptionsMultiple = {
+  name?: string[],
+  watch?: string[],
+  ignore?: string[],
+  exec: string[]
+};
+
+type OptionsSingle = {
   name?: string,
   watch?: string[],
   ignore?: string[],
@@ -16,4 +23,4 @@ type Options = {
 
 /* EXPORT */
 
-export {IController, Options};
+export {IController, OptionsMultiple, OptionsSingle};

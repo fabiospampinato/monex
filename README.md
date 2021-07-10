@@ -1,12 +1,12 @@
 # Monex
 
-Execute a script and restart it whenever it crashes or a watched file changes.
+Execute one or multiple scripts and restart them whenever they crash or a watched file changes.
 
 ## Features
 
-This is basically a lightweight alternative to [nodemon](https://github.com/remy/nodemon).
+This is basically a lightweight alternative to [nodemon](https://github.com/remy/nodemon) and [concurrently](https://github.com/kimmobrunfeldt/concurrently).
 
-- **Much simpler**: Compared to `nodemon` this library is much simpler, both in terms of APIs and implementation, while remaining for pretty much all use cases just as powerful.
+- **Much simpler**: Compared to `nodemon` this library is much simpler, both in terms of APIs and implementation, while remaining for pretty much all use cases just as powerful. It can also execute multiple scripts just like `concurrently`.
 - **Much smaller**: Compared to `nodemon` this library has ~7x fewer dependencies (~100 fewer), and ~half of them, including the filesystem watcher, I maintain myself, and the other half are really good small dependencies I personally trust.
 - **Better watching**: Compared to `nodemon` this library uses [`watcher`](https://github.com/fabiospampinato/watcher) for watching the filesystem instead of [`chokidar`](https://github.com/paulmillr/chokidar), which among other things means this library doesn't rely on any native node modules _and_ can watch recursively under Windows natively.
 
@@ -33,6 +33,7 @@ monex --name foo --watch pathToWatch --ignore globToIgnore --exec 'script to exe
 - `--name`:
   - It's optional.
   - It provides a name to use for debugging purposes.
+  - You can provide multiple names if you are executing multiple scripts, one for each script, by writing multiple names after `--name` or by using the option multiple times.
 - `--watch`:
   - It's optional.
   - It supports either relative or absolute paths.
@@ -47,10 +48,11 @@ monex --name foo --watch pathToWatch --ignore globToIgnore --exec 'script to exe
 - `--exec`:
   - It's required.
   - You pass it a full-blown shell script to execute, with no magic whatsoever behind it, just write the full script you want to execute.
+  - You can execute multiple scripts by writing multiple scripts after `--exec` or by using the option multiple times.
   - Remember to write the full script, e.g. `node path/to/script.js`.
   - Remember to quote the full script if it contains any whitespaces, e.g. `--exec 'node path/to/script.js'`.
 
-If you want to restart the script manually just send `rs` in the terminal.
+If you want to restart the script(s) manually just send `rs` in the terminal.
 
 That's it, super simple, there's very little to remember.
 
@@ -62,10 +64,10 @@ You can also instantiate Monex programmatically, the API is essentially the same
 import monex from 'monex';
 
 const controller = monex ({
-  name: 'foo',
+  name: ['foo'],
   watch: ['dist'],
   ignore: ['**/.git/**'],
-  script: 'node path/to/script.js'
+  script: ['node path/to/script.js']
 });
 
 // Provided APIs for manually controlling the script

@@ -8,23 +8,23 @@ import picomatch from 'picomatch';
 import onExit from 'signal-exit';
 import {color} from 'specialist';
 import Watcher from 'watcher';
-import {Options} from './types';
+import {OptionsSingle} from './types';
 import PID from './pid';
 
 /* MAIN */
 
-class Controller {
+class ControllerSingle {
 
   /* VARIABLES */
 
-  options: Options;
+  options: OptionsSingle;
   name: string;
   process?: ChildProcess;
   watcher?: Watcher.type;
 
   /* CONSTRUCTOR */
 
-  constructor ( options: Options ) {
+  constructor ( options: OptionsSingle ) {
 
     this.options = options;
     this.name = options.name || '';
@@ -106,7 +106,7 @@ class Controller {
     proc.on ( 'error', restart );
     proc.on ( 'exit', restart );
 
-    process.stdin.on ( 'data', data => {
+    process.stdin.on ( 'data', data => { //TODO: move this above
       if ( data.toString ().trim ().toLowerCase () !== 'rs' ) return;
       restart ();
     });
@@ -158,4 +158,4 @@ class Controller {
 
 /* EXPORT */
 
-export default Controller;
+export default ControllerSingle;

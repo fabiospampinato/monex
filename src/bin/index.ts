@@ -14,10 +14,10 @@ program
   .name ( name )
   .version ( version )
   .description ( description )
-  .option ( '-n, --name <name>', 'Name used for debugging purposes' )
+  .option ( '-n, --name <names...>', 'Name(s) used for debugging purposes' )
   .option ( '-w, --watch <paths...>', 'Watch the provided paths recursively' )
   .option ( '-i, --ignore <globs...>', 'Ignore the paths matching any of these globs' )
-  .requiredOption ( '-x, --exec <script>', 'Script to execute' )
+  .requiredOption ( '-x, --exec <scripts...>', 'Script(s) to execute' )
   .action ( options => {
     execute ( options );
   });
