@@ -22,7 +22,7 @@ class ControllerMultiple {
       return new ControllerSingle ({
         prefix: true,
         color: Color.inferColor ( index ),
-        name: options.name?.[index],
+        name: options.name?.[index] || String ( index ),
         exec: options.exec[index],
         ignore: options.ignore,
         watch: options.watch
