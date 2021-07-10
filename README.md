@@ -27,9 +27,12 @@ You would usually run the `monex` command from a `package.json` script, but you 
 The provided interface is the following:
 
 ```sh
-monex --watch pathToWatch --ignore globToIgnore --exec 'script to execute'
+monex --name foo --watch pathToWatch --ignore globToIgnore --exec 'script to execute'
 ```
 
+- `--name`:
+  - It's optional.
+  - It provides a name to use for debugging purposes.
 - `--watch`:
   - It's optional.
   - It supports either relative or absolute paths.
@@ -59,6 +62,7 @@ You can also instantiate Monex programmatically, the API is essentially the same
 import monex from 'monex';
 
 const controller = monex ({
+  name: 'foo',
   watch: ['dist'],
   ignore: ['**/.git/**'],
   script: 'node path/to/script.js'
