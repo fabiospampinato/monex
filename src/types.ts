@@ -1,6 +1,12 @@
 
 /* TYPES */
 
+type IController = {
+  restart: () => void,
+  start: () => void,
+  stop: () => void
+};
+
 type Options = {
   name?: string,
   watch?: string[],
@@ -10,4 +16,4 @@ type Options = {
 
 /* EXPORT */
 
-export {Options};
+export {IController, Options};

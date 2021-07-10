@@ -1,12 +1,12 @@
 
 /* IMPORT */
 
-import {Options} from './types';
+import {IController, Options} from './types';
 import Controller from './controller';
 
 /* MAIN */
 
-const execute = ( options: Options ): Controller => {
+const execute = ( options: Options ): IController => {
 
   return new Controller ( options ).start ();
 
