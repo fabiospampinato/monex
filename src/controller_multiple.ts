@@ -2,6 +2,7 @@
 /* IMPORT */
 
 import {OptionsMultiple} from './types';
+import Color from './color';
 import ControllerSingle from './controller_single';
 
 /* MAIN */
@@ -19,6 +20,8 @@ class ControllerMultiple {
 
     this.controllers = options.exec.map ( ( _, index ) => {
       return new ControllerSingle ({
+        prefix: true,
+        color: Color.inferColor ( index ),
         name: options.name?.[index],
         exec: options.exec[index],
         ignore: options.ignore,

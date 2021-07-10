@@ -3,6 +3,8 @@
 
 type Callback = () => void;
 
+type Color = 'red' | 'green' | 'yellow' | 'blue' | 'magenta' | 'cyan';
+
 type Disposer = Callback;
 
 type Event = 'restart';
@@ -21,7 +23,9 @@ type OptionsMultiple = {
 };
 
 type OptionsSingle = {
+  color?: Color,
   name?: string,
+  prefix?: boolean,
   watch?: string[],
   ignore?: string[],
   exec: string
@@ -29,4 +33,4 @@ type OptionsSingle = {
 
 /* EXPORT */
 
-export {Callback, Disposer, Event, IController, OptionsMultiple, OptionsSingle};
+export {Callback, Color, Disposer, Event, IController, OptionsMultiple, OptionsSingle};

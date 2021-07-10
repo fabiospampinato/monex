@@ -9,6 +9,7 @@ import onExit from 'signal-exit';
 import {color} from 'specialist';
 import Watcher from 'watcher';
 import {OptionsSingle} from './types';
+import Logger from './logger';
 import PID from './pid';
 import Stdin from './stdin';
 
@@ -83,7 +84,7 @@ class ControllerSingle {
     const exec = this.options.exec.replace ( /^npm:/, 'npm run ' );
 
     const proc = this.process = spawn ( exec, {
-      stdio: ['pipe', 'inherit', 'inherit'],
+      stdio: ['ignore', null, null],
       shell: true
     });
 
@@ -110,6 +111,17 @@ class ControllerSingle {
     proc.on ( 'close', restart );
     proc.on ( 'error', restart );
     proc.on ( 'exit', restart );
+
+    const log = ( data: Buffer | string ) => {
+      if ( this.options.prefix ) {
+        Logger.log ( data, this.options.name, this.options.color );
+      } else {
+        Logger.log ( data );
+      }
+    };
+
+    proc.stdout.on ( 'data', log );
+    proc.stderr.on ( 'data', log );
 
     this.watch ();
 
