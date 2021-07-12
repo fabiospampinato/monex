@@ -51,9 +51,13 @@ program
 program
   .command ( 'stat' )
   .description ( 'Dump stats about the processes' )
-  .action ( async () => {
-    const stat = await Daemon.stat ();
-    console.log ( JSON.stringify ( stat, undefined, 2 ) );
+  .option ( '-p, --pretty', 'Output in a more human-readable format' )
+  .action ( async options => {
+    const stats = await Daemon.stat ();
+    if ( options.pretty ) { //TODO: Reimplement this completely to have a much prettier tabular-like output
+      stats.forEach ( stat => stat.stdout = stat.stderr = '' );
+    }
+    console.log ( JSON.stringify ( stats, undefined, 2 ) );
     process.exit ( 0 );
   });
 
