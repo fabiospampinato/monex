@@ -12,9 +12,14 @@
     "clean": "rimraf dist",
     "compile": "tsc --skipLibCheck && tstei",
     "compile:watch": "tsc --skipLibCheck --watch",
-    "test:single": "node dist/src/bin/index.js --name test --watch dist --ignore '**/bin/**' --exec 'node test/index.js'",
-    "test:multiple": "node dist/src/bin/index.js --name test1 test2 --watch dist --ignore '**/bin/**' --exec 'node test/index.js' 'node test/index.js'",
-    "test:multiple:autoname": "node dist/src/bin/index.js --watch dist --ignore '**/bin/**' --exec 'node test/index.js' 'node test/index.js'",
+    "test:single": "node dist/src/bin/interactive.js --name test --watch dist --ignore '**/bin/**' --exec 'node test/index.js'",
+    "test:multiple": "node dist/src/bin/interactive.js --name test1 test2 --watch dist --ignore '**/bin/**' --exec 'node test/index.js' 'node test/index.js'",
+    "test:multiple:autoname": "node dist/src/bin/interactive.js --watch dist --ignore '**/bin/**' --exec 'node test/index.js' 'node test/index.js'",
+    "test:deamon:log": "node dist/src/bin/daemon.js log",
+    "test:deamon:ping": "node dist/src/bin/daemon.js ping",
+    "test:deamon:start": "node dist/src/bin/daemon.js start --config test/monex.json",
+    "test:deamon:stat": "node dist/src/bin/daemon.js stat",
+    "test:deamon:stop": "node dist/src/bin/daemon.js stop",
     "prepublishOnly": "npm run clean && npm run compile"
   },
   "bugs": {
