@@ -47,6 +47,7 @@
     "jayson": "^3.6.4",
     "picomatch": "^2.3.0",
     "pidtree": "^0.5.0",
+    "pidusage": "^2.0.21",
     "signal-exit": "^3.0.3",
     "specialist": "^0.4.0",
     "watcher": "^1.2.0"
@@ -55,6 +56,7 @@
     "@types/debounce": "^1.2.0",
     "@types/node": "^15.0.3",
     "@types/picomatch": "^2.2.5",
+    "@types/pidusage": "^2.0.1",
     "@types/signal-exit": "^3.0.1",
     "rimraf": "^3.0.2",
     "typescript": "^4.3.5",
