@@ -6,7 +6,8 @@
   "types": "dist/src/interactive/index.d.ts",
   "bin": {
     "monex": "dist/src/bin/interactive.js",
-    "monex-daemon": "dist/src/bin/daemon.js"
+    "monex-daemon": "dist/src/bin/daemon.js",
+    "monexd": "dist/src/bin/daemon.js"
   },
   "scripts": {
     "clean": "rimraf dist",
