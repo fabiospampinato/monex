@@ -39,8 +39,6 @@ class ControllerSingle {
 
     onExit ( this.stop );
 
-    Stdin.onRestart ( this.restart );
-
   }
 
   /* HELPERS */
@@ -103,6 +101,7 @@ class ControllerSingle {
     };
 
     const kill = (): void => {
+      stdinDisposer ();
       clearInterval ( pidsInterval );
       PID.tree.kill ( proc.pid, proc['pids'] || [proc.pid] );
     };
@@ -111,6 +110,8 @@ class ControllerSingle {
       if ( this.process !== proc ) return kill ();
       this.restart ();
     }, 500 );
+
+    const stdinDisposer = Stdin.onRestart ( restart );
 
     const pidsInterval = setInterval ( updatePids, 1000 );
 

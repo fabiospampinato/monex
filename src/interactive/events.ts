@@ -15,9 +15,7 @@ class Events<Event extends string> {
 
   emit = ( event: Event ): void => {
 
-    const listeners = this.listeners[event];
-
-    if ( !listeners?.length ) return;
+    const listeners = this.get ( event );
 
     for ( let i = 0, l = listeners.length; i < l; i++ ) {
 
@@ -27,9 +25,15 @@ class Events<Event extends string> {
 
   }
 
+  get = ( event: Event ): Callback[] => {
+
+    return this.listeners[event] || ( this.listeners[event] = [] );
+
+  }
+
   on = ( event: Event, listener: Callback ): Disposer => {
 
-    const listeners = ( this.listeners[event] || ( this.listeners[event] = [] ) ) as Callback[]; //TSC
+    const listeners = this.get ( event );
 
     if ( listeners.includes ( listener ) ) return () => {};
 
