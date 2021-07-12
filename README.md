@@ -183,7 +183,18 @@ monex-daemon stat --pretty
 
 #### Programmatic API
 
-A progammatic API for controlling the daemon is not currently provided. If you need one please open up an issue on GitHub and I'll make sure to expose it.
+You can also control the daemon programmatically, the API is essentially the same as the one exposed by the CLI.
+
+```ts
+import monex from 'monex/daemon';
+
+// Provided APIs for manually controlling the daemon
+monex.start (); // Starts the daemon
+monex.stop (); // Stops the daemon
+monex.ping (); // Returns either "true" or "false"
+monex.log (); // Returns the output of the "log" command as a string
+monex.stat (); // Returns the JSON object containing monitoring stats
+```
 
 ## License
 
