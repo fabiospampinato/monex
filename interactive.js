@@ -1,2 +1,2 @@
 
-module.exports = require ( './interactive' );
+module.exports = require ( './dist/src/interactive' );

@@ -1,2 +1,2 @@
 
-module.exports = require ( './daemon' );
+module.exports = require ( './dist/src/daemon' );
