@@ -1,7 +1,7 @@
 {
   "name": "monex",
   "description": "Execute one or multiple scripts, interactively or in daemon mode, and restart them whenever they crash or a watched file changes.",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "main": "dist/src/interactive/index.js",
   "types": "dist/src/interactive/index.d.ts",
   "bin": {
