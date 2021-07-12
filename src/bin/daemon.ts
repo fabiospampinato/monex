@@ -18,8 +18,9 @@ program
 program
   .command ( 'log' )
   .description ( 'Dump logs from the processes' )
-  .action ( async () => {
-    const log = await Daemon.log ();
+  .option ( '-n, --lines <number>', 'The number of lines to output per stdout/stderr section' )
+  .action ( async options => {
+    const log = await Daemon.log ( options.lines );
     console.log ( log );
     process.exit ( 0 );
   });
