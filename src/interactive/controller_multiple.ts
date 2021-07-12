@@ -49,9 +49,9 @@ class ControllerMultiple {
 
   }
 
-  stat = (): Stat[] => {
+  stat = async (): Promise<Stat[]> => {
 
-    return this.controllers.map ( controller => controller.stat () );
+    return await Promise.all ( this.controllers.map ( controller => controller.stat () ) );
 
   }
 

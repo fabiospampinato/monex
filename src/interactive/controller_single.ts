@@ -21,6 +21,9 @@ class ControllerSingle {
 
   options: OptionsSingle;
   name: string;
+  restarts: number;
+  stdout: string;
+  stderr: string;
   process?: ChildProcess;
   watcher?: Watcher.type;
 
@@ -30,6 +33,9 @@ class ControllerSingle {
 
     this.options = options;
     this.name = options.name || '';
+    this.restarts = -1;
+    this.stdout = '';
+    this.stderr = '';
 
     onExit ( this.stop );
 
@@ -79,6 +85,8 @@ class ControllerSingle {
 
     if ( this.process ) return this;
 
+    this.restarts += 1;
+
     console.log ( `[monex] ${this.name ? `${color.bold ( this.name )} - ` : ''}Starting...` );
 
     const exec = this.options.exec.replace ( /^npm:/, 'npm run ' );
@@ -120,8 +128,20 @@ class ControllerSingle {
       }
     };
 
-    proc.stdout.on ( 'data', log );
-    proc.stderr.on ( 'data', log );
+    const onStdout = ( data: Buffer | string ) => {
+      this.stdout += data.toString ();
+      this.stdout = this.stdout.slice ( -100_000 );
+      log ( data );
+    };
+
+    const onStderr = ( data: Buffer | string ) => {
+      this.stderr += data.toString ();
+      this.stderr = this.stderr.slice ( -100_000 );
+      log ( data );
+    };
+
+    proc.stdout.on ( 'data', onStdout );
+    proc.stderr.on ( 'data', onStderr );
 
     this.watch ();
 
@@ -129,22 +149,42 @@ class ControllerSingle {
 
   }
 
-  stat = (): Stat => {
+  stat = async (): Promise<Stat> => {
 
-    //TODO: Write the actual function properly
+    try {
 
-    return {
-      id: 0,
-      pid: 0,
-      name: 'name',
-      online: true,
-      restarts: 0,
-      starttime: Date.now (),
-      cpu: .1,
-      memory: .1,
-      stdout: '',
-      stderr: ''
-    };
+      if ( !this.process?.pid ) throw new Error ();
+
+      const {pid} = this.process;
+      const usage = await PID.tree.usage ( pid, [pid] );
+
+      return {
+        pid,
+        name: this.options.name || '',
+        online: true,
+        restarts: this.restarts,
+        timestamp: usage?.timestamp || 0,
+        cpu: ( usage?.cpu || 0 ) / 100,
+        memory: usage?.memory || 0,
+        stdout: this.stdout,
+        stderr: this.stderr
+      };
+
+    } catch {
+
+      return {
+        pid: 0,
+        name: this.options.name || '',
+        online: false,
+        restarts: this.restarts,
+        timestamp: 0,
+        cpu: 0,
+        memory: 0,
+        stdout: this.stdout,
+        stderr: this.stderr
+      };
+
+    }
 
   }
 

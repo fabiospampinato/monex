@@ -41,7 +41,7 @@ const server = new jayson.Server ({
 
     try {
 
-      return controllers.flatMap ( controller => controller.stat () );
+      return ( await Promise.all ( controllers.map ( controller => controller.stat () ) ) ).flat ();
 
     } catch {
 

@@ -25,38 +25,18 @@ const Daemon = {
 
   log: async ( linesNr: number = 100 ): Promise<string> => {
 
-    const stat = await Daemon.stat ();
+    const stats = await Daemon.stat ();
     const lines: string[] = [];
 
-    for ( const {name, stdout, stderr} of stat ) {
+    for ( const stat of stats ) {
 
-      lines.push ( `[${color.bold ( `${name}:stdout` )}]` );
+      const stdoutLines = stat.stdout.split ( /\r?\n/g ).splice ( -linesNr );
+      const stderrLines = stat.stderr.split ( /\r?\n/g ).splice ( -linesNr );
 
-      if ( stdout.trim ().length ) {
-
-        const lines = stdout.split ( /\r?\n/g ).splice ( -linesNr );
-
-        lines.push ( ...lines );
-
-      } else {
-
-        lines.push ( color.dim ( '(Empty)' ) );
-
-      }
-
-      lines.push ( `[${color.bold ( `${name}:stderr` )}]` );
-
-      if ( stderr.trim ().length ) {
-
-        const lines = stderr.split ( /\r?\n/g ).splice ( -linesNr );
-
-        lines.push ( ...lines );
-
-      } else {
-
-        lines.push ( color.dim ( '(Empty)' ) );
-
-      }
+      lines.push ( `[${color.cyan ( color.bold ( stat.name ) )}:${color.bold ( 'stdout' )}]` );
+      lines.push ( ...stdoutLines );
+      lines.push ( `[${color.cyan ( color.bold ( stat.name ) )}:${color.bold ( 'stderr' )}]` );
+      lines.push ( ...stderrLines );
 
     }
 
