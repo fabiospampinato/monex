@@ -1,0 +1,14 @@
+[
+  {
+    "name": "test1",
+    "exec": "node test/index.js"
+  },
+  {
+    "name": "test2",
+    "exec": "node test/index.js"
+  },
+  {
+    "name": "test3",
+    "exec": "node test/index.js"
+  }
+]

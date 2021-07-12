@@ -1,7 +1,7 @@
 
 /* IMPORT */
 
-import {Callback, Disposer} from './types';
+import {Callback, Disposer} from '../types';
 
 /* MAIN */
 

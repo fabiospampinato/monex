@@ -2,7 +2,7 @@
 /* IMPORT */
 
 import {color} from 'specialist';
-import {Color} from './types';
+import {Color} from '../types';
 
 /* MAIN */
 

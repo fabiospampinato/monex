@@ -1,7 +1,7 @@
 
 /* IMPORT */
 
-import {IController, OptionsMultiple, OptionsSingle} from './types';
+import {IController, OptionsMultiple, OptionsSingle} from '../types';
 import ControllerMultiple from './controller_multiple';
 import ControllerSingle from './controller_single';
 

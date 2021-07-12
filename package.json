@@ -2,9 +2,12 @@
   "name": "monex",
   "description": "Execute one or multiple scripts and restart them whenever they crash or a watched file changes.",
   "version": "1.2.0",
-  "bin": "dist/src/bin/index.js",
-  "main": "dist/src/index.js",
-  "types": "dist/src/index.d.ts",
+  "main": "dist/src/interactive/index.js",
+  "types": "dist/src/interactive/index.d.ts",
+  "bin": {
+    "monex": "dist/src/bin/interactive.js",
+    "monex-daemon": "dist/src/bin/daemon.js"
+  },
   "scripts": {
     "clean": "rimraf dist",
     "compile": "tsc --skipLibCheck && tstei",
@@ -35,10 +38,13 @@
     "tiny",
     "monitor",
     "single",
-    "multiple"
+    "multiple",
+    "daemon"
   ],
   "dependencies": {
     "debounce": "^1.2.1",
+    "find-up-json": "^1.0.1",
+    "jayson": "^3.6.4",
     "picomatch": "^2.3.0",
     "pidtree": "^0.5.0",
     "signal-exit": "^3.0.3",

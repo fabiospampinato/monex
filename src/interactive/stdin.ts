@@ -1,7 +1,7 @@
 
 /* IMPORT */
 
-import {Callback, Disposer, Event} from './types';
+import {Callback, Disposer, Event} from '../types';
 import Events from './events';
 
 /* MAIN */

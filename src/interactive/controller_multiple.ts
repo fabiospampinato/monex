@@ -1,7 +1,7 @@
 
 /* IMPORT */
 
-import {OptionsMultiple} from './types';
+import {OptionsMultiple, Stat} from '../types';
 import Color from './color';
 import ControllerSingle from './controller_single';
 
@@ -46,6 +46,12 @@ class ControllerMultiple {
     this.controllers.forEach ( controller => controller.start () );
 
     return this;
+
+  }
+
+  stat = (): Stat[] => {
+
+    return this.controllers.map ( controller => controller.stat () );
 
   }
 

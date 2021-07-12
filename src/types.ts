@@ -12,6 +12,7 @@ type Event = 'restart';
 type IController = {
   restart: () => void,
   start: () => void,
+  stat: () => Stat | Stat[],
   stop: () => void
 };
 
@@ -31,6 +32,19 @@ type OptionsSingle = {
   exec: string
 };
 
+type Stat = {
+  id: number,
+  pid: number,
+  name: string,
+  online: boolean,
+  restarts: number,
+  starttime: number,
+  cpu: number,
+  memory: number,
+  stdout: string,
+  stderr: string
+};
+
 /* EXPORT */
 
-export {Callback, Color, Disposer, Event, IController, OptionsMultiple, OptionsSingle};
+export {Callback, Color, Disposer, Event, IController, OptionsMultiple, OptionsSingle, Stat};

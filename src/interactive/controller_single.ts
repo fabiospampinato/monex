@@ -8,7 +8,7 @@ import picomatch from 'picomatch';
 import onExit from 'signal-exit';
 import {color} from 'specialist';
 import Watcher from 'watcher';
-import {OptionsSingle} from './types';
+import {OptionsSingle, Stat} from '../types';
 import Logger from './logger';
 import PID from './pid';
 import Stdin from './stdin';
@@ -126,6 +126,25 @@ class ControllerSingle {
     this.watch ();
 
     return this;
+
+  }
+
+  stat = (): Stat => {
+
+    //TODO: Write the actual function properly
+
+    return {
+      id: 0,
+      pid: 0,
+      name: 'name',
+      online: true,
+      restarts: 0,
+      starttime: Date.now (),
+      cpu: .1,
+      memory: .1,
+      stdout: '',
+      stderr: ''
+    };
 
   }
 

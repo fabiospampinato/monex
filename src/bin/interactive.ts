@@ -4,7 +4,7 @@
 
 import {program, updater} from 'specialist';
 import {name, version, description} from '../../package.json';
-import execute from '..';
+import execute from '../interactive';
 
 /* MAIN */
 
