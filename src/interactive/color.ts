@@ -9,11 +9,12 @@ const Color = {
 
   /* API */
 
-  inferColor: ( index: number ): Color => {
+  inferColor: ( nr: number ): Color => {
 
     const colors: Color[] = ['blue', 'magenta', 'yellow', 'cyan', 'red', 'green'];
+    const index = Math.abs ( nr ) % colors.length;
 
-    return colors[Math.abs ( index ) % colors.length];
+    return colors[index];
 
   }
 

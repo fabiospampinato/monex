@@ -11,21 +11,23 @@ class ControllerMultiple {
 
   /* VARIABLES */
 
-  controllers: ControllerSingle[];
-  options: OptionsMultiple;
+  private controllers: ControllerSingle[];
+  private options: OptionsMultiple;
 
   /* CONSTRUCTOR */
 
   constructor ( options: OptionsMultiple ) {
 
-    this.controllers = options.exec.map ( ( _, index ) => {
+    this.options = options;
+
+    this.controllers = this.options.exec.map ( ( _, index ) => {
       return new ControllerSingle ({
         prefix: true,
         color: Color.inferColor ( index ),
-        name: options.name?.[index] || String ( index ),
-        exec: options.exec[index],
-        ignore: options.ignore,
-        watch: options.watch
+        name: this.options.name?.[index] || String ( index ),
+        exec: this.options.exec[index],
+        ignore: this.options.ignore,
+        watch: this.options.watch
       });
     });
 

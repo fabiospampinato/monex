@@ -2,67 +2,18 @@
 /* IMPORT */
 
 import jayson from 'jayson/promise';
-import {IController, OptionsSingle, Stat} from '../types';
-import execute from '../interactive';
+import ControllerDaemon from '../interactive/controller_daemon';
 
 /* HELPERS */
 
-const controllers: IController[] = [];
+const controller = new ControllerDaemon ();
 
 /* MAIN */
 
 const server = new jayson.Server ({
-
-  /* API */
-
-  start: async ( config: OptionsSingle[] ): Promise<boolean> => {
-
-    try {
-
-      for ( const options of config ) {
-
-        const controller = execute ( options );
-
-        controllers.push ( controller );
-
-      }
-
-      return true;
-
-    } catch {
-
-      return false;
-
-    }
-
-  },
-
-  stat: async (): Promise<Stat[]> => {
-
-    try {
-
-      return ( await Promise.all ( controllers.map ( controller => controller.stat () ) ) ).flat ();
-
-    } catch {
-
-      return [];
-
-    }
-
-  },
-
-  stop: (): void => {
-
-    try {
-
-      controllers.forEach ( controller => controller.stop () );
-
-    } catch {}
-
-    process.exit ( 0 );
-
-  }
-
+  start: controller.start,
+  stat: controller.stat,
+  stop: controller.kill
 });
 
 server.tcp ().listen ( 8163 );

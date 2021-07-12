@@ -16,6 +16,8 @@ type IController = {
   stop: () => void
 };
 
+type OptionsConfig = OptionsSingle[];
+
 type OptionsMultiple = {
   name?: string[],
   watch?: string[],
@@ -52,4 +54,4 @@ type Usage = {
 
 /* EXPORT */
 
-export {Callback, Color, Disposer, Event, IController, OptionsMultiple, OptionsSingle, Stat, Usage};
+export {Callback, Color, Disposer, Event, IController, OptionsConfig, OptionsMultiple, OptionsSingle, Stat, Usage};

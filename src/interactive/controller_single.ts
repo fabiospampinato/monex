@@ -19,13 +19,13 @@ class ControllerSingle {
 
   /* VARIABLES */
 
-  options: OptionsSingle;
-  name: string;
-  restarts: number;
-  stdout: string;
-  stderr: string;
-  process?: ChildProcess;
-  watcher?: Watcher.type;
+  private options: OptionsSingle;
+  private name: string;
+  private restarts: number;
+  private stdout: string;
+  private stderr: string;
+  private process?: ChildProcess;
+  private watcher?: Watcher.type;
 
   /* CONSTRUCTOR */
 
@@ -163,7 +163,7 @@ class ControllerSingle {
         name: this.options.name || '',
         online: true,
         restarts: this.restarts,
-        timestamp: usage?.timestamp || 0,
+        timestamp: usage?.timestamp || -1,
         cpu: ( usage?.cpu || 0 ) / 100,
         memory: usage?.memory || 0,
         stdout: this.stdout,
@@ -173,11 +173,11 @@ class ControllerSingle {
     } catch {
 
       return {
-        pid: 0,
+        pid: -1,
         name: this.options.name || '',
         online: false,
         restarts: this.restarts,
-        timestamp: 0,
+        timestamp: -1,
         cpu: 0,
         memory: 0,
         stdout: this.stdout,
