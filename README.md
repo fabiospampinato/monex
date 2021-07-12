@@ -127,7 +127,7 @@ Various sub-commands are provided by the `context-daemon` command for managing t
 
 ###### `start`
 
-The start command starts a deamon with the provided configuration.
+The start command starts a daemon with the provided configuration.
 
 If an existing daemon is found that's terminated automatically before starting the new one.
 
