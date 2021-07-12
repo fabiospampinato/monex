@@ -4,6 +4,7 @@
 import {spawn} from 'child_process';
 import findUpJson from 'find-up-json';
 import fs from 'fs';
+import JSONC from 'jsonc-simple-parser';
 import path from 'path';
 import {color} from 'specialist';
 import {OptionsSingle, Stat} from '../types';
@@ -83,7 +84,7 @@ const Daemon = {
 
     if ( typeof config === 'string' ) {
 
-      config = JSON.parse ( fs.readFileSync ( config, 'utf8' ) );
+      config = JSONC.parse ( fs.readFileSync ( config, 'utf8' ) );
 
     }
 
