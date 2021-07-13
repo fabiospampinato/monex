@@ -47,7 +47,7 @@ const PID = {
       return usages.reduce ( ( acc, usage ) => ({
         cpu: acc.cpu + usage.cpu,
         memory: acc.memory + usage.memory,
-        timestamp: acc.timestamp
+        uptime: acc.uptime
       }), usages[0] );
 
     }
@@ -90,9 +90,15 @@ const PID = {
 
   },
 
-  usage: ( pid: number ): Promise<Usage | undefined> => {
+  usage: async ( pid: number ): Promise<Usage | undefined> => {
 
-    return pidusage ( pid );
+    try {
+
+      const {cpu, memory, elapsed: uptime} = await pidusage ( pid );
+
+      return {cpu, memory, uptime};
+
+    } catch {};
 
   }
 

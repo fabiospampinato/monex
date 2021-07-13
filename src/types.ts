@@ -39,7 +39,7 @@ type Stat = {
   name: string,
   online: boolean,
   restarts: number,
-  timestamp: number,
+  uptime: number,
   cpu: number,
   memory: number,
   stdout: string,
@@ -49,7 +49,7 @@ type Stat = {
 type Usage = {
   cpu: number,
   memory: number,
-  timestamp: number
+  uptime: number
 };
 
 /* EXPORT */

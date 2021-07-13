@@ -68,7 +68,7 @@ const Formatter = {
         stat.name,
         toStatus ( stat.online ),
         stat.restarts,
-        toTime ( stat.timestamp ),
+        toTime ( stat.uptime ),
         toPercentage ( stat.cpu ),
         toSize ( stat.memory )
       ]);
