@@ -31,7 +31,7 @@ const PID = {
 
       const pids = await PID.tree.get ( pid ) || treeFallback;
 
-      pids.forEach ( PID.kill );
+      await Promise.all ( pids.map ( PID.kill ) );
 
     },
 
@@ -56,23 +56,46 @@ const PID = {
 
   /* API */
 
-  kill: ( pid: number ): void => {
+  exists: ( pid: number ): boolean => {
 
-    PID.signal ( pid, 'SIGTERM' ); // Very patient
+    try {
 
-    setTimeout ( () => {
+      return process.kill ( pid, 0 );
 
-      PID.signal ( pid, 'SIGINT' ); // Somewhat patient
+    } catch ( error: unknown ) {
 
-      setTimeout ( () => {
+      return ( error instanceof Error ) && ( error['code'] === 'EPERM' );
 
-        PID.signal ( pid, 'SIGKILL' ); // No patience
-        PID.signal ( pid, 'SIGKILL' ); // No patience
-        PID.signal ( pid, 'SIGKILL' ); // No patience
+    }
 
-      }, 2000 );
+  },
 
-    }, 3000 );
+  kill: async ( pid: number ): Promise<void> => {
+
+    return new Promise ( async resolve => {
+
+      PID.signal ( pid, 'SIGTERM' ); // Some patience
+
+      const timeoutId = setTimeout ( () => { // No patience
+
+        PID.signal ( pid, 'SIGKILL' );
+        PID.signal ( pid, 'SIGKILL' );
+        PID.signal ( pid, 'SIGKILL' );
+
+      }, 3000 );
+
+      const intervalId = setInterval ( async () => {
+
+        if ( PID.exists ( pid ) ) return;
+
+        clearTimeout ( timeoutId );
+        clearInterval ( intervalId );
+
+        resolve ();
+
+      }, 50 );
+
+    });
 
   },
 

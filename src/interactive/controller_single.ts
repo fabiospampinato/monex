@@ -43,7 +43,7 @@ class ControllerSingle {
 
   /* HELPERS */
 
-  private _processKill = (): void => {
+  private _processKill = async (): Promise<void> => {
 
     const {process} = this;
 
@@ -51,11 +51,11 @@ class ControllerSingle {
 
     this.process = undefined;
 
-    PID.tree.kill ( process.pid, process['pids'] || [process.pid] );
+    await PID.tree.kill ( process.pid, process['pids'] || [process.pid] );
 
   }
 
-  private _watcherKill = (): void => {
+  private _watcherKill = async (): Promise<void> => {
 
     const {watcher} = this;
 
@@ -69,19 +69,17 @@ class ControllerSingle {
 
   /* API */
 
-  restart = (): this => {
+  restart = async (): Promise<void> => {
 
-    this._processKill ();
+    await this._processKill ();
 
-    this.start ();
-
-    return this;
+    await this.start ();
 
   }
 
-  start = (): this => {
+  start = async (): Promise<void> => {
 
-    if ( this.process ) return this;
+    if ( this.process ) return;
 
     this.restarts += 1;
 
@@ -131,13 +129,13 @@ class ControllerSingle {
 
     const onStdout = ( data: Buffer | string ) => {
       this.stdout += data.toString ();
-      this.stdout = this.stdout.slice ( -100_000 );
+      this.stdout = this.stdout.slice ( -128_000 );
       log ( data );
     };
 
     const onStderr = ( data: Buffer | string ) => {
       this.stderr += data.toString ();
-      this.stderr = this.stderr.slice ( -100_000 );
+      this.stderr = this.stderr.slice ( -128_000 );
       log ( data );
     };
 
@@ -146,55 +144,31 @@ class ControllerSingle {
 
     this.watch ();
 
-    return this;
-
   }
 
   stat = async (): Promise<Stat> => {
 
-    try {
+    const pid = this.process?.pid;
+    const usage = await PID.tree.usage ( pid, [pid] );
 
-      if ( !this.process?.pid ) throw new Error ();
-
-      const {pid} = this.process;
-      const usage = await PID.tree.usage ( pid, [pid] );
-
-      return {
-        pid,
-        name: this.options.name || '',
-        online: true,
-        restarts: this.restarts,
-        uptime: usage?.uptime || 0,
-        cpu: ( usage?.cpu || 0 ) / 100,
-        memory: usage?.memory || 0,
-        stdout: this.stdout,
-        stderr: this.stderr
-      };
-
-    } catch {
-
-      return {
-        pid: -1,
-        name: this.options.name || '',
-        online: false,
-        restarts: this.restarts,
-        uptime: 0,
-        cpu: 0,
-        memory: 0,
-        stdout: this.stdout,
-        stderr: this.stderr
-      };
-
-    }
+    return {
+      pid: pid || -1,
+      name: this.options.name || '',
+      online: !!pid,
+      restarts: this.restarts,
+      uptime: usage?.uptime || 0,
+      cpu: ( usage?.cpu || 0 ) / 100,
+      memory: usage?.memory || 0,
+      stdout: this.stdout,
+      stderr: this.stderr
+    };
 
   }
 
-  stop = (): this => {
+  stop = async (): Promise<void> => {
 
-    this._watcherKill ();
-    this._processKill ();
-
-    return this;
+    await this._processKill ();
+    await this._watcherKill ();
 
   }
 

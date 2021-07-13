@@ -14,9 +14,9 @@ class ControllerDaemon {
 
   /* API */
 
-  kill = (): void => {
+  kill = async (): Promise<void> => {
 
-    this.stop ();
+    await this.stop ();
 
     process.exit ( 0 );
 
@@ -24,7 +24,7 @@ class ControllerDaemon {
 
   start = async ( config: OptionsConfig ): Promise<boolean> => {
 
-    this.stop ();
+    await this.stop ();
 
     try {
 
@@ -60,11 +60,11 @@ class ControllerDaemon {
 
   }
 
-  stop = (): void => {
+  stop = async (): Promise<void> => {
 
     try {
 
-      this.controllers.forEach ( controller => controller.stop () );
+      await Promise.all ( this.controllers.map ( controller => controller.stop () ) );
 
     } catch {}
 

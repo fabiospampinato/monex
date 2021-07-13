@@ -10,10 +10,10 @@ type Disposer = Callback;
 type Event = 'restart';
 
 type IController = {
-  restart: () => void,
-  start: () => void,
+  restart: () => Promise<void>,
+  start: () => Promise<void>,
   stat: () => Promise<Stat | Stat[]>,
-  stop: () => void
+  stop: () => Promise<void>
 };
 
 type OptionsConfig = OptionsSingle[];

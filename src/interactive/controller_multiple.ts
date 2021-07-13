@@ -35,19 +35,15 @@ class ControllerMultiple {
 
   /* API */
 
-  restart = (): this => {
+  restart = async (): Promise<void> => {
 
-    this.controllers.forEach ( controller => controller.restart () );
-
-    return this;
+    await Promise.all ( this.controllers.map ( controller => controller.restart () ) );
 
   }
 
-  start = (): this => {
+  start = async (): Promise<void> => {
 
-    this.controllers.forEach ( controller => controller.start () );
-
-    return this;
+    await Promise.all ( this.controllers.map ( controller => controller.start () ) );
 
   }
 
@@ -57,11 +53,9 @@ class ControllerMultiple {
 
   }
 
-  stop = (): this => {
+  stop = async (): Promise<void> => {
 
-    this.controllers.forEach ( controller => controller.stop () );
-
-    return this;
+    await Promise.all ( this.controllers.map ( controller => controller.stop () ) );
 
   }
 

@@ -24,7 +24,9 @@ const execute = ( options: OptionsMultiple | OptionsSingle ): IController => {
       watch
     });
 
-    return controller.start ();
+    controller.start ();
+
+    return controller;
 
   } else {
 
@@ -35,7 +37,9 @@ const execute = ( options: OptionsMultiple | OptionsSingle ): IController => {
       watch
     });
 
-    return controller.start ();
+    controller.start ();
+
+    return controller;
 
   }
 
