@@ -21,6 +21,7 @@ class ControllerSingle {
 
   private options: OptionsSingle;
   private name: string;
+  private restarting: boolean;
   private restarts: number;
   private stdout: string;
   private stderr: string;
@@ -33,6 +34,7 @@ class ControllerSingle {
 
     this.options = options;
     this.name = options.name || '';
+    this.restarting = false;
     this.restarts = -1;
     this.stdout = '';
     this.stderr = '';
@@ -71,9 +73,15 @@ class ControllerSingle {
 
   restart = async (): Promise<void> => {
 
+    if ( this.restarting ) return;
+
+    this.restarting = true;
+
     await this._processKill ();
 
     await this.start ();
+
+    this.restarting = false;
 
   }
 
