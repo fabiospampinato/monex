@@ -5,6 +5,7 @@
 import {color, program, updater} from 'specialist';
 import {name, version, description} from '../../package.json';
 import Daemon from '../daemon';
+import Formatter from '../interactive/formatter';
 
 /* MAIN */
 
@@ -54,10 +55,8 @@ program
   .option ( '-p, --pretty', 'Output in a more human-readable format' )
   .action ( async options => {
     const stats = await Daemon.stat ();
-    if ( options.pretty ) { //TODO: Reimplement this completely to have a much prettier tabular-like output
-      stats.forEach ( stat => stat.stdout = stat.stderr = '' );
-    }
-    console.log ( JSON.stringify ( stats, undefined, 2 ) );
+    const statsFormatted = Formatter.format ( stats, !!options.pretty );
+    console.log ( statsFormatted );
     process.exit ( 0 );
   });
 
