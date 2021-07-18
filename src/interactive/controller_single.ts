@@ -164,6 +164,7 @@ class ControllerSingle {
       name: this.options.name || '',
       online: !!pid,
       restarts: this.restarts,
+      birthtime: usage?.birthtime || 0,
       uptime: usage?.uptime || 0,
       cpu: ( usage?.cpu || 0 ) / 100,
       memory: usage?.memory || 0,

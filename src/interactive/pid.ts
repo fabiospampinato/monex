@@ -47,6 +47,7 @@ const PID = {
       return usages.reduce ( ( acc, usage ) => ({
         cpu: acc.cpu + usage.cpu,
         memory: acc.memory + usage.memory,
+        birthtime: acc.birthtime,
         uptime: acc.uptime
       }), usages[0] );
 
@@ -118,8 +119,9 @@ const PID = {
     try {
 
       const {cpu, memory, elapsed: uptime} = await pidusage ( pid );
+      const birthtime = Date.now () - uptime;
 
-      return {cpu, memory, uptime};
+      return {cpu, memory, birthtime, uptime};
 
     } catch {};
 

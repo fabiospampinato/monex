@@ -39,6 +39,7 @@ type Stat = {
   name: string,
   online: boolean,
   restarts: number,
+  birthtime: number,
   uptime: number,
   cpu: number,
   memory: number,
@@ -49,6 +50,7 @@ type Stat = {
 type Usage = {
   cpu: number,
   memory: number,
+  birthtime: number,
   uptime: number
 };
 
