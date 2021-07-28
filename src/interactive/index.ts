@@ -11,6 +11,7 @@ const execute = ( options: OptionsMultiple | OptionsSingle ): IController => {
 
   const {exec, ignore, name, watch} = options;
   const names = Array.isArray ( name ) ? name : ( name ? [name] : [] );
+  const restart = ( 'restart' in options ) ? options.restart : undefined;
   const execs = Array.isArray ( exec ) ? exec : [exec];
 
   if ( names.length && names.length !== execs.length ) throw new Error ( 'Mismatching number of names and scripts provided' );
@@ -19,6 +20,7 @@ const execute = ( options: OptionsMultiple | OptionsSingle ): IController => {
 
     const controller = new ControllerMultiple ({
       name: names,
+      restart,
       exec: execs,
       ignore,
       watch

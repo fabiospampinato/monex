@@ -117,7 +117,7 @@ class ControllerSingle {
       this.restart ();
     }, 500 );
 
-    const stdinDisposer = Stdin.onRestart ( restart );
+    const stdinDisposer = ( this.options.stdin !== false ) ? Stdin.onRestart ( restart ) : () => {};
 
     const pidsInterval = setInterval ( updatePids, 1000 );
 

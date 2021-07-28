@@ -15,6 +15,7 @@
     "compile:watch": "tsc --skipLibCheck --watch",
     "test:single": "node dist/src/bin/interactive.js --name test --watch dist --ignore '**/bin/**' --exec 'node test/index.js'",
     "test:multiple": "node dist/src/bin/interactive.js --name test1 test2 --watch dist --ignore '**/bin/**' --exec 'node test/index.js' 'node test/index.js'",
+    "test:multiple:restart": "node dist/src/bin/interactive.js --name test1 test2 --restart test2 --watch dist --ignore '**/bin/**' --exec 'node test/index.js' 'node test/index.js'",
     "test:multiple:autoname": "node dist/src/bin/interactive.js --watch dist --ignore '**/bin/**' --exec 'node test/index.js' 'node test/index.js'",
     "test:daemon:log": "node dist/src/bin/daemon.js log",
     "test:daemon:ping": "node dist/src/bin/daemon.js ping",

@@ -20,6 +20,7 @@ type OptionsConfig = OptionsSingle[];
 
 type OptionsMultiple = {
   name?: string[],
+  restart?: string,
   watch?: string[],
   ignore?: string[],
   exec: string[]
@@ -29,6 +30,7 @@ type OptionsSingle = {
   color?: Color,
   name?: string,
   prefix?: boolean,
+  stdin?: boolean,
   watch?: string[],
   ignore?: string[],
   exec: string

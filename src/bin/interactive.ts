@@ -15,6 +15,7 @@ program
   .version ( version )
   .description ( description )
   .option ( '-n, --name <names...>', 'Name(s) used for debugging purposes' )
+  .option ( '-r, --restart <name>', 'Name of the script to restart when restarting manually' )
   .option ( '-w, --watch <paths...>', 'Watch the provided paths recursively' )
   .option ( '-i, --ignore <globs...>', 'Ignore the paths matching any of these globs' )
   .requiredOption ( '-x, --exec <scripts...>', 'Script(s) to execute' )

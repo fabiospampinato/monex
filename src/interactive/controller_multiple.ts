@@ -21,14 +21,17 @@ class ControllerMultiple {
     this.options = options;
 
     this.controllers = this.options.exec.map ( ( _, index ) => {
-      return new ControllerSingle ({
-        prefix: true,
-        color: Color.inferColor ( index ),
-        name: this.options.name?.[index] || String ( index ),
-        exec: this.options.exec[index],
-        ignore: this.options.ignore,
-        watch: this.options.watch
-      });
+
+      const prefix = true;
+      const name = this.options.name?.[index] || String ( index );
+      const stdin = !this.options.restart || ( this.options.restart === name );
+      const color = Color.inferColor ( index );
+      const exec = this.options.exec[index];
+      const ignore = this.options.ignore;
+      const watch = this.options.watch
+
+      return new ControllerSingle ({ prefix, name, stdin, color, exec, ignore, watch });
+
     });
 
   }

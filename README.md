@@ -38,6 +38,10 @@ monex --name foo --watch pathToWatch --ignore globToIgnore --exec 'script to exe
   - It's optional.
   - It provides a name to use for debugging purposes.
   - You can provide multiple names if you are executing multiple scripts, one for each script, by writing multiple names after `--name` or by using the option multiple times.
+- `-r`, `--restart`:
+  - It's optional.
+  - You pass it the name of the script to restart when restarting manually.
+  - By default all scripts are restarted when restarting manually.
 - `-w`, `--watch`:
   - It's optional.
   - It supports either relative or absolute paths.
