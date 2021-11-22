@@ -112,6 +112,11 @@ class ControllerSingle {
       PID.tree.kill ( proc.pid, proc['pids'] || [proc.pid] );
     };
 
+    const closed = ( code: number | null ): void => {
+      if ( code === 0 && this.options.watch ) return;
+      restart ();
+    };
+
     const restart = debounce ( (): void => {
       if ( this.process !== proc ) return kill ();
       this.restart ();
@@ -123,9 +128,9 @@ class ControllerSingle {
 
     updatePids ();
 
-    proc.on ( 'close', restart );
+    proc.on ( 'close', closed );
     proc.on ( 'error', restart );
-    proc.on ( 'exit', restart );
+    proc.on ( 'exit', closed );
 
     const log = ( data: Buffer | string ) => {
       if ( this.options.prefix ) {
