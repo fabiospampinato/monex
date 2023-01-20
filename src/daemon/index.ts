@@ -4,9 +4,9 @@
 import {spawn} from 'child_process';
 import findUpJson from 'find-up-json';
 import fs from 'fs';
-import JSONC from 'jsonc-simple-parser';
 import path from 'path';
 import {color} from 'specialist';
+import JSONC from 'tiny-jsonc';
 import {OptionsSingle, Stat} from '../types';
 import client from './client';
 

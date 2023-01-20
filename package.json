@@ -53,7 +53,6 @@
     "debounce": "^1.2.1",
     "find-up-json": "^1.0.1",
     "jayson": "^3.6.4",
-    "jsonc-simple-parser": "^2.2.0",
     "picomatch": "^2.3.0",
     "pidtree": "^0.5.0",
     "pidusage": "^2.0.21",
@@ -61,6 +60,7 @@
     "pretty-ms": "^7.0.1",
     "signal-exit": "^3.0.3",
     "specialist": "^0.4.0",
+    "tiny-jsonc": "^1.0.1",
     "watcher": "^1.2.0"
   },
   "devDependencies": {
