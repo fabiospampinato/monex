@@ -2,7 +2,7 @@
 /* IMPORT */
 
 import {spawn, ChildProcess} from 'child_process';
-import debounce from 'debounce';
+import {debounce} from 'dettle';
 import path from 'path';
 import picomatch from 'picomatch';
 import onExit from 'signal-exit';
