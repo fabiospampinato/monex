@@ -13,6 +13,8 @@ const execute = ( options: Partial<OptionsMultiple | OptionsSingle> ): IControll
   const names = Array.isArray ( name ) ? name : ( name ? [name] : [] );
   const restart = ( 'restart' in options ) ? options.restart : undefined;
   const execs = Array.isArray ( exec ) ? exec : ( exec ? [exec] : [] );
+  const ignores = Array.isArray ( ignore ) ? ignore : ( ignore ? [ignore] : undefined );
+  const watches = Array.isArray ( watch ) ? watch : ( watch ? [watch] : undefined );
 
   if ( !execs.length ) throw new Error ( 'No scripts to execute provided' );
 
@@ -24,8 +26,8 @@ const execute = ( options: Partial<OptionsMultiple | OptionsSingle> ): IControll
       name: names,
       restart,
       exec: execs,
-      ignore,
-      watch
+      ignore: ignores,
+      watch: watches
     });
 
     controller.start ();
@@ -37,8 +39,8 @@ const execute = ( options: Partial<OptionsMultiple | OptionsSingle> ): IControll
     const controller = new ControllerSingle ({
       name: names[0],
       exec: execs[0],
-      ignore,
-      watch
+      ignore: ignores,
+      watch: watches
     });
 
     controller.start ();

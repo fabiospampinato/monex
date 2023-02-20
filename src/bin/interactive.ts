@@ -8,6 +8,7 @@ import execute from '~/interactive';
 /* MAIN */
 
 bin ( 'monex', 'Execute one or multiple scripts, interactively' )
+  .autoExit ( false )
   /* DEFAULT COMMAND */
   .option ( '-n, --name <names...>', 'Name(s) used for debugging purposes', { eager: true } )
   .option ( '-r, --restart <name>', 'Name of the script to restart when restarting manually' )
