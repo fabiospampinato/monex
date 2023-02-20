@@ -50,7 +50,7 @@ monex --name foo --watch pathToWatch --ignore globToIgnore --exec 'script to exe
 - `-i`, `--ignore`:
   - It's optional.
   - Globs are matched against absolute paths pointing to watched files and folders.
-  - Globs interally are parsed using [`picomatch`](https://github.com/micromatch/picomatch).
+  - Globs interally are parsed using [`zeptomatch`](https://github.com/fabiospampinato/zeptomatch).
   - You can use multiple ignore globs by writing multiple globs after `--ignore` or by using the option multiple times.
   - Remember to quote globs otherwise they might get expanded by your shell, e.g. `'**/node_modules/**'`.
 - `-x`, `--exec`:

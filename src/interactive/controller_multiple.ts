@@ -1,9 +1,9 @@
 
 /* IMPORT */
 
-import {OptionsMultiple, Stat} from '../types';
-import Color from './color';
-import ControllerSingle from './controller_single';
+import Color from '~/interactive/color';
+import ControllerSingle from '~/interactive/controller_single';
+import type {OptionsMultiple, Stat} from '~/types';
 
 /* MAIN */
 

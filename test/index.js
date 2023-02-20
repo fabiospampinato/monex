@@ -1,5 +1,10 @@
 
-const {spawn} = require ( 'child_process' );
+/* IMPORT */
+
+import {spawn} from 'node:child_process';
+import process from 'node:process';
+
+/* MAIN */
 
 console.log ( 'Child started...', Date.now () );
 

@@ -1,9 +1,10 @@
 
 /* IMPORT */
 
+import process from 'node:process';
 import pidtree from 'pidtree';
 import pidusage from 'pidusage';
-import {Usage} from '../types';
+import type {Usage} from '~/types';
 
 /* MAIN */
 
@@ -21,7 +22,11 @@ const PID = {
 
         return await pidtree ( pid, { root: true } );
 
-      } catch {}
+      } catch {
+
+        return;
+
+      }
 
     },
 
@@ -65,13 +70,15 @@ const PID = {
 
     } catch ( error: unknown ) {
 
-      return ( error instanceof Error ) && ( error['code'] === 'EPERM' );
+      return ( error instanceof Error ) && ( 'code' in error ) && ( error.code === 'EPERM' );
 
     }
 
   },
 
-  kill: async ( pid: number ): Promise<void> => {
+  kill: async ( pid?: number ): Promise<void> => {
+
+    if ( !pid ) return;
 
     return new Promise ( async resolve => {
 
@@ -114,7 +121,9 @@ const PID = {
 
   },
 
-  usage: async ( pid: number ): Promise<Usage | undefined> => {
+  usage: async ( pid?: number ): Promise<Usage | undefined> => {
+
+    if ( !pid ) return;
 
     try {
 
@@ -123,7 +132,11 @@ const PID = {
 
       return {cpu, memory, birthtime, uptime};
 
-    } catch {};
+    } catch {
+
+      return;
+
+    }
 
   }
 

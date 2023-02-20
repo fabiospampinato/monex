@@ -1,22 +1,15 @@
 
 /* IMPORT */
 
-import jayson from 'jayson/promise';
-import ControllerDaemon from '../interactive/controller_daemon';
-
-/* HELPERS */
-
-const controller = new ControllerDaemon ();
+import {createHttpServer} from 'picorpc';
+import Procedures from '~/daemon/procedures';
 
 /* MAIN */
 
-const server = new jayson.Server ({
-  start: controller.start,
-  stat: controller.stat,
-  stop: controller.kill
+const server = createHttpServer ({
+  port: 8163,
+  procedures: Procedures
 });
-
-server.tcp ().listen ( 8163 );
 
 /* EXPORT */
 

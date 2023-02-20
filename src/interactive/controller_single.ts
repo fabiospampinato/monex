@@ -1,17 +1,19 @@
 
 /* IMPORT */
 
-import {spawn, ChildProcess} from 'child_process';
 import {debounce} from 'dettle';
-import path from 'path';
-import picomatch from 'picomatch';
-import onExit from 'signal-exit';
+import {spawn} from 'node:child_process';
+import path from 'node:path';
+import process from 'node:process';
 import {color} from 'specialist';
 import Watcher from 'watcher';
-import {OptionsSingle, Stat} from '../types';
-import Logger from './logger';
-import PID from './pid';
-import Stdin from './stdin';
+import whenExit from 'when-exit';
+import zeptomatch from 'zeptomatch';
+import Logger from '~/interactive/logger';
+import PID from '~/interactive/pid';
+import Stdin from '~/interactive/stdin';
+import type {Buffer} from 'node:buffer';
+import type {OptionsSingle, Process, Stat} from '~/types';
 
 /* MAIN */
 
@@ -25,8 +27,8 @@ class ControllerSingle {
   private restarts: number;
   private stdout: string;
   private stderr: string;
-  private process?: ChildProcess;
-  private watcher?: Watcher.type;
+  private process?: Process;
+  private watcher?: Watcher;
 
   /* CONSTRUCTOR */
 
@@ -39,7 +41,7 @@ class ControllerSingle {
     this.stdout = '';
     this.stderr = '';
 
-    onExit ( this.stop );
+    whenExit ( this.stop );
 
   }
 
@@ -53,7 +55,7 @@ class ControllerSingle {
 
     this.process = undefined;
 
-    await PID.tree.kill ( process.pid, process['pids'] || [process.pid] );
+    await PID.tree.kill ( process.pid, process.pids || [process.pid] );
 
   }
 
@@ -95,7 +97,7 @@ class ControllerSingle {
 
     const exec = this.options.exec.replace ( /^npm:/, 'npm run ' );
 
-    const proc = this.process = spawn ( exec, {
+    const proc: Process = this.process = spawn ( exec, {
       stdio: ['ignore', null, null],
       shell: true
     });
@@ -103,13 +105,13 @@ class ControllerSingle {
     const updatePids = async (): Promise<void> => {
       if ( this.process !== proc ) return;
       const pids = await PID.tree.get ( proc.pid );
-      proc['pids'] = pids || proc['pids'];
+      proc.pids = pids || proc.pids;
     };
 
     const kill = (): void => {
       stdinDisposer ();
       clearInterval ( pidsInterval );
-      PID.tree.kill ( proc.pid, proc['pids'] || [proc.pid] );
+      PID.tree.kill ( proc.pid, proc.pids || [proc.pid] );
     };
 
     const closed = ( code: number | null ): void => {
@@ -194,9 +196,8 @@ class ControllerSingle {
 
     const targetPaths = this.options.watch.map ( targetPath => path.resolve ( process.cwd (), targetPath ) );
 
-    const matchers = this.options.ignore?.map ( glob => picomatch ( glob ) ) || [];
-
-    const ignore = ( targetPath: string ): boolean => matchers.some ( matcher => matcher ( targetPath ) );
+    const ignoreGlobs = this.options.ignore || [];
+    const ignore = ( targetPath: string ): boolean => !!ignoreGlobs.length && zeptomatch ( ignoreGlobs, targetPath );
 
     const restart = debounce ( this.restart, 500 );
 

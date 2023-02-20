@@ -2,25 +2,18 @@
 
 /* IMPORT */
 
-import {program, updater} from 'specialist';
-import {name, version, description} from '../../package.json';
-import execute from '../interactive';
+import {bin} from 'specialist';
+import execute from '~/interactive';
 
 /* MAIN */
 
-updater ({ name, version });
-
-program
-  .name ( name )
-  .version ( version )
-  .description ( description )
-  .option ( '-n, --name <names...>', 'Name(s) used for debugging purposes' )
+bin ( 'monex', 'Execute one or multiple scripts, interactively' )
+  /* DEFAULT COMMAND */
+  .option ( '-n, --name <names...>', 'Name(s) used for debugging purposes', { eager: true } )
   .option ( '-r, --restart <name>', 'Name of the script to restart when restarting manually' )
-  .option ( '-w, --watch <paths...>', 'Watch the provided paths recursively' )
-  .option ( '-i, --ignore <globs...>', 'Ignore the paths matching any of these globs' )
-  .requiredOption ( '-x, --exec <scripts...>', 'Script(s) to execute' )
-  .action ( options => {
-    execute ( options );
-  });
-
-program.parse ();
+  .option ( '-w, --watch <paths...>', 'Watch the provided paths recursively', { eager: true } )
+  .option ( '-i, --ignore <globs...>', 'Ignore the paths matching any of these globs', { eager: true } )
+  .option ( '-x, --exec <scripts...>', 'Script(s) to execute', { eager: true, required: true } )
+  .action ( execute )
+  /* RUN */
+  .run ();

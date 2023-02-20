@@ -1,40 +1,35 @@
 {
   "name": "monex",
+  "repository": "github:fabiospampinato/monex",
   "description": "Execute one or multiple scripts, interactively or in daemon mode, and restart them whenever they crash or a watched file changes.",
   "version": "1.4.3",
-  "main": "dist/src/interactive/index.js",
-  "types": "dist/src/interactive/index.d.ts",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./interactive": "./dist/interactive/index.js",
+    "./daemon": "./dist/daemon/index.js"
+  },
   "bin": {
-    "monex": "dist/src/bin/interactive.js",
-    "monex-daemon": "dist/src/bin/daemon.js",
-    "monexd": "dist/src/bin/daemon.js"
+    "monex": "dist/bin/interactive.js",
+    "monex-daemon": "dist/bin/daemon.js",
+    "monexd": "dist/bin/daemon.js"
   },
   "scripts": {
-    "clean": "rimraf dist",
-    "compile": "tsc --skipLibCheck && tstei",
-    "compile:watch": "tsc --skipLibCheck --watch",
-    "test:single": "node dist/src/bin/interactive.js --name test --watch dist --ignore '**/bin/**' --exec 'node test/index.js'",
-    "test:multiple": "node dist/src/bin/interactive.js --name test1 test2 --watch dist --ignore '**/bin/**' --exec 'node test/index.js' 'node test/index.js'",
-    "test:multiple:restart": "node dist/src/bin/interactive.js --name test1 test2 --restart test2 --watch dist --ignore '**/bin/**' --exec 'node test/index.js' 'node test/index.js'",
-    "test:multiple:autoname": "node dist/src/bin/interactive.js --watch dist --ignore '**/bin/**' --exec 'node test/index.js' 'node test/index.js'",
-    "test:daemon:log": "node dist/src/bin/daemon.js log",
-    "test:daemon:ping": "node dist/src/bin/daemon.js ping",
-    "test:daemon:start": "node dist/src/bin/daemon.js start --config test/monex.json",
-    "test:daemon:stat": "node dist/src/bin/daemon.js stat",
-    "test:daemon:stop": "node dist/src/bin/daemon.js stop",
-    "prepublishOnly": "npm run clean && npm run compile"
-  },
-  "bugs": {
-    "url": "https://github.com/fabiospampinato/monex/issues"
-  },
-  "license": "MIT",
-  "author": {
-    "name": "Fabio Spampinato",
-    "email": "spampinabio@gmail.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/fabiospampinato/monex.git"
+    "clean": "tsex clean",
+    "compile": "tsex compile",
+    "compile:watch": "tsex compile --watch",
+    "test:single": "node dist/bin/interactive.js --name test --watch dist --ignore '**/bin/**' --exec 'node test/index.js'",
+    "test:multiple": "node dist/bin/interactive.js --name test1 test2 --watch dist --ignore '**/bin/**' --exec 'node test/index.js' 'node test/index.js'",
+    "test:multiple:restart": "node dist/bin/interactive.js --name test1 test2 --restart test2 --watch dist --ignore '**/bin/**' --exec 'node test/index.js' 'node test/index.js'",
+    "test:multiple:autoname": "node dist/bin/interactive.js --watch dist --ignore '**/bin/**' --exec 'node test/index.js' 'node test/index.js'",
+    "test:daemon:log": "node dist/bin/daemon.js log",
+    "test:daemon:ping": "node dist/bin/daemon.js ping",
+    "test:daemon:start": "node dist/bin/daemon.js start --config test/monex.json",
+    "test:daemon:stat": "node dist/bin/daemon.js stat",
+    "test:daemon:stop": "node dist/bin/daemon.js stop",
+    "prepublishOnly": "tsex prepare"
   },
   "keywords": [
     "execute",
@@ -49,28 +44,26 @@
     "daemon"
   ],
   "dependencies": {
-    "cli-table": "^0.3.6",
-    "dettle": "^1.0.0",
-    "find-up-json": "^1.0.1",
-    "jayson": "^3.6.4",
-    "picomatch": "^2.3.0",
-    "pidtree": "^0.5.0",
-    "pidusage": "^2.0.21",
-    "pretty-bytes": "^5.6.0",
-    "pretty-ms": "^7.0.1",
-    "signal-exit": "^3.0.3",
-    "specialist": "^0.4.0",
+    "cli-table": "^0.3.11",
+    "dettle": "^1.0.1",
+    "find-up-json": "^2.0.1",
+    "picorpc": "^1.0.0",
+    "pidtree": "^0.6.0",
+    "pidusage": "^3.0.2",
+    "pretty-bytes": "^6.1.0",
+    "pretty-ms": "^8.0.0",
+    "specialist": "^1.2.0",
+    "tiny-dirname": "^1.0.0",
     "tiny-jsonc": "^1.0.1",
-    "watcher": "^1.2.0"
+    "watcher": "^2.2.2",
+    "when-exit": "^2.1.0",
+    "zeptomatch": "^1.1.0"
   },
   "devDependencies": {
-    "@types/cli-table": "^0.3.0",
-    "@types/node": "^15.0.3",
-    "@types/picomatch": "^2.2.5",
-    "@types/pidusage": "^2.0.1",
-    "@types/signal-exit": "^3.0.1",
-    "rimraf": "^3.0.2",
-    "typescript": "^4.3.5",
-    "typescript-transform-export-interop": "^1.0.4"
+    "@types/cli-table": "^0.3.1",
+    "@types/node": "^18.14.0",
+    "@types/pidusage": "^2.0.2",
+    "tsex": "^2.2.0",
+    "typescript": "^4.9.5"
   }
 }

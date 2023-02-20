@@ -1,8 +1,9 @@
 
 /* IMPORT */
 
-import {IController, OptionsConfig, Stat} from '../types';
-import execute from '.';
+import process from 'node:process';
+import execute from '~/interactive';
+import type {IController, OptionsConfig, Stat} from '~/types';
 
 /* MAIN */
 
@@ -19,6 +20,12 @@ class ControllerDaemon {
     await this.stop ();
 
     process.exit ( 0 );
+
+  }
+
+  ping = async (): Promise<void> => {
+
+    return;
 
   }
 

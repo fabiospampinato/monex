@@ -1,5 +1,10 @@
 
-/* TYPES */
+/* IMPORT */
+
+import type {ChildProcessByStdio} from 'node:child_process';
+import type {Readable} from 'node:stream';
+
+/* MAIN */
 
 type Callback = () => void;
 
@@ -36,6 +41,10 @@ type OptionsSingle = {
   exec: string
 };
 
+type Process = ChildProcessByStdio<null, Readable, Readable> & {
+  pids?: number[]
+};
+
 type Stat = {
   pid: number,
   name: string,
@@ -58,4 +67,4 @@ type Usage = {
 
 /* EXPORT */
 
-export {Callback, Color, Disposer, Event, IController, OptionsConfig, OptionsMultiple, OptionsSingle, Stat, Usage};
+export type {Callback, Color, Disposer, Event, IController, OptionsConfig, OptionsMultiple, OptionsSingle, Process, Stat, Usage};

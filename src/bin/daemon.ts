@@ -2,70 +2,53 @@
 
 /* IMPORT */
 
-import {color, program, updater} from 'specialist';
-import {name, version, description} from '../../package.json';
-import Daemon from '../daemon';
-import Formatter from '../interactive/formatter';
+import process from 'node:process';
+import {bin, color} from 'specialist';
+import Daemon from '~/daemon';
+import Formatter from '~/interactive/formatter';
 
 /* MAIN */
 
-updater ({ name, version });
-
-program
-  .name ( `${name}-daemon` )
-  .version ( version )
-  .description ( description );
-
-program
-  .command ( 'log' )
-  .description ( 'Dump logs from the processes' )
+bin ( 'monexd', 'Execute one or multiple scripts, in daemon mode' )
+  /* LOG */
+  .command ( 'log', 'Dump logs from the processes' )
   .option ( '-n, --lines <number>', 'The number of lines to output per stdout/stderr section' )
   .action ( async options => {
-    const log = await Daemon.log ( options.lines );
+    const lines = Number ( options['lines'] ) || 100;
+    const log = await Daemon.log ( lines );
     console.log ( log );
-    process.exit ( 0 );
-  });
-
-program
-  .command ( 'ping' )
-  .description ( 'Ping the daemon' )
+  })
+  /* PING */
+  .command ( 'ping', 'Ping the daemon' )
   .action ( async () => {
     const isOnline = await Daemon.ping ();
     const message = isOnline ? color.green ( 'Online' ) : color.red ( 'Offline' );
     const code = isOnline ? 0 : 1;
     console.log ( message );
     process.exit ( code );
-  });
-
-program
-  .command ( 'start' )
-  .description ( 'Start the daemon' )
+  })
+  /* START */
+  .command ( 'start', 'Start the daemon' )
   .option ( '-c, --config <path>', 'Path to the configuration to load' )
   .action ( async options => {
-    const isSuccess = await Daemon.start ( options.config );
+    const config = options['config'];
+    const isSuccess = await Daemon.start ( config );
     const message = isSuccess ? color.green ( 'Success' ) : color.red ( 'Failure' );
     const code = isSuccess ? 0 : 1;
     console.log ( message );
     process.exit ( code );
-  });
-
-program
-  .command ( 'stat' )
-  .description ( 'Dump stats about the processes' )
+  })
+  /* STAT */
+  .command ( 'stat', 'Dump stats about the processes' )
   .option ( '-p, --pretty', 'Output in a more human-readable format' )
   .action ( async options => {
+    const pretty = !!options['pretty'];
     const stats = await Daemon.stat ();
-    const statsFormatted = Formatter.format ( stats, !!options.pretty );
+    const statsFormatted = Formatter.format ( stats, pretty );
     console.log ( statsFormatted );
-    process.exit ( 0 );
-  });
-
-program
-  .command ( 'stop' )
-  .description ( 'Stop the daemon' )
-  .action ( async () => {
-    await Daemon.stop ();
-    process.exit ( 0 );
-  });
-
-program.parse ();
+  })
+  /* STOP */
+  .command ( 'stop', 'Stop the daemon' )
+  .action ( Daemon.stop )
+  /* RUN */
+  .run ();

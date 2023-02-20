@@ -1,8 +1,10 @@
 
 /* IMPORT */
 
-import {Callback, Disposer, Event} from '../types';
-import Events from './events';
+import process from 'node:process';
+import Events from '~/interactive/events';
+import type {Buffer} from 'node:buffer';
+import type {Callback, Disposer, Event} from '~/types';
 
 /* MAIN */
 

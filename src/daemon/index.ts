@@ -1,14 +1,16 @@
 
 /* IMPORT */
 
-import {spawn} from 'child_process';
-import findUpJson from 'find-up-json';
-import fs from 'fs';
-import path from 'path';
+import findUp from 'find-up-json';
+import {spawn} from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
+import process from 'node:process';
 import {color} from 'specialist';
+import dirname from 'tiny-dirname';
 import JSONC from 'tiny-jsonc';
-import {OptionsSingle, Stat} from '../types';
-import client from './client';
+import client from '~/daemon/client';
+import type {OptionsSingle, Stat} from '~/types';
 
 /* MAIN */
 
@@ -31,8 +33,8 @@ const Daemon = {
 
     for ( const stat of stats ) {
 
-      const stdoutLines = stat.stdout.split ( /\r?\n/g ).splice ( -linesNr );
-      const stderrLines = stat.stderr.split ( /\r?\n/g ).splice ( -linesNr );
+      const stdoutLines = stat.stdout.split ( /\r?\n|\r/g ).splice ( -linesNr );
+      const stderrLines = stat.stderr.split ( /\r?\n|\r/g ).splice ( -linesNr );
 
       lines.push ( `[${color.cyan ( color.bold ( stat.name ) )}:${color.bold ( 'stdout' )}]` );
       lines.push ( ...stdoutLines );
@@ -49,7 +51,7 @@ const Daemon = {
 
     try {
 
-      await client.request ( 'ping', [] );
+      await client.ping ();
 
       return true;
 
@@ -65,7 +67,8 @@ const Daemon = {
 
     await Daemon.stop ();
 
-    const serverPath = path.join ( __dirname, 'server.js' );
+    const folderPath = dirname ( import.meta.url );
+    const serverPath = path.join ( folderPath, 'server.js' );
 
     const proc = spawn ( process.execPath, [serverPath], {
       stdio: 'ignore',
@@ -90,7 +93,7 @@ const Daemon = {
 
     if ( typeof config === 'undefined' ) {
 
-      config = findUpJson ( 'monex.json' )?.content;
+      config = findUp ( 'monex.json' )?.content;
 
     }
 
@@ -104,7 +107,7 @@ const Daemon = {
 
     try {
 
-      const {result} = await client.request ( 'start', config );
+      const result = await client.start ( config );
 
       return !!result;
 
@@ -120,7 +123,7 @@ const Daemon = {
 
     try {
 
-      const {result} = await client.request ( 'stat', [] );
+      const result = await client.stat ();
 
       return result;
 
@@ -138,7 +141,7 @@ const Daemon = {
 
     try {
 
-      await client.request ( 'stop', [] );
+      await client.stop ();
 
     } catch {
 

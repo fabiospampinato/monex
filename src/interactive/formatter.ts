@@ -1,11 +1,11 @@
 
 /* IMPORT */
 
-import {Stat} from '../types';
 import Table from 'cli-table';
 import prettyBytes from 'pretty-bytes';
 import prettyMs from 'pretty-ms';
 import {color} from 'specialist';
+import type {Stat} from '~/types';
 
 /* MAIN */
 
@@ -64,10 +64,10 @@ const Formatter = {
 
     stats.forEach ( stat => {
       table.push ([
-        stat.pid,
+        String ( stat.pid ),
         stat.name,
         toStatus ( stat.online ),
-        stat.restarts,
+        String ( stat.restarts ),
         toTime ( stat.uptime ),
         toPercentage ( stat.cpu ),
         toSize ( stat.memory )

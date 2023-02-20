@@ -1,8 +1,10 @@
 
 /* IMPORT */
 
+import process from 'node:process';
 import {color} from 'specialist';
-import {Color} from '../types';
+import type {Buffer} from 'node:buffer';
+import type {Color} from '~/types';
 
 /* MAIN */
 
@@ -16,7 +18,7 @@ const Logger = {
 
     const prefix = prefixColor ? color.bold ( color[prefixColor]( prefixName ) ) : color.bold ( prefixName );
 
-    const lines = data.toString ().replace ( /^\r?\n|\r?\n$/, '' ).split ( /\r?\n/g );
+    const lines = data.toString ().replace ( /^\r?\n|\r?\n$/, '' ).split ( /\r?\n|\r/g );
 
     lines.forEach ( line => {
 

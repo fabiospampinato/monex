@@ -1,12 +1,13 @@
 
 /* IMPORT */
 
-import jayson from 'jayson/promise';
+import {createHttpClient} from 'picorpc';
+import type Procedures from '~/daemon/procedures';
 
 /* MAIN */
 
-const client = jayson.Client.tcp ({
-  port: 8163
+const client = createHttpClient<typeof Procedures> ({
+  url: 'http://localhost:8163'
 });
 
 /* EXPORT */
