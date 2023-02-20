@@ -115,6 +115,7 @@ class ControllerSingle {
     };
 
     const closed = ( code: number | null ): void => {
+      kill ();
       if ( code === 0 && this.options.watch ) return;
       restart ();
     };
