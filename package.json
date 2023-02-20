@@ -46,7 +46,7 @@
   "dependencies": {
     "cli-table": "^0.3.11",
     "dettle": "^1.0.1",
-    "find-up-json": "^2.0.1",
+    "find-up-json": "^2.0.2",
     "picorpc": "^1.0.0",
     "pidtree": "^0.6.0",
     "pidusage": "^3.0.2",
