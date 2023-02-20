@@ -7,7 +7,7 @@ Execute one or multiple scripts, interactively or in daemon mode, and restart th
 This is basically a lightweight all-in-one alternative to [`nodemon`](https://github.com/remy/nodemon), [`concurrently`](https://github.com/kimmobrunfeldt/concurrently) and to some extent even [`pm2`](https://github.com/Unitech/pm2).
 
 - **Much simpler**: Compared to those libraries Monex is much much simpler, both in terms of implementation and API surface, while for a lot of use cases being just as powerful as they are.
-- **Much smaller**: Compared to those libraries Monex requires ~35MB fewer code to be installed for it to work (~40MB vs ~5MB, and most of that is because of `lodash`), which from a security perspective is a nice feature if you need to install this on a sensitive machine, like your personal machine or a server.
+- **Much smaller**: Compared to those libraries Monex requires ~38MB fewer code to be installed for it to work (~40MB vs ~2MB, and most of that is just readmes and stuff), which from a security perspective is a nice feature if you need to install this on a sensitive machine, like your personal machine or a server.
 - **Better watching**: This library uses [`watcher`](https://github.com/fabiospampinato/watcher) for watching the filesystem instead of [`chokidar`](https://github.com/paulmillr/chokidar), meaning it handles more filesystem issues that may potentially arise and it can natively watch paths recursively under Windows.
 
 ## Install
