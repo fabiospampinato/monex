@@ -10,6 +10,7 @@ import execute from '~/interactive';
 bin ( 'monex', 'Execute one or multiple scripts, interactively' )
   .autoExit ( false )
   /* DEFAULT COMMAND */
+  .option ( '-d, --delay <number>', 'Minimum delay between restarts' )
   .option ( '-n, --name <names...>', 'Name(s) used for debugging purposes', { eager: true } )
   .option ( '-r, --restart <name>', 'Name of the script to restart when restarting manually' )
   .option ( '-w, --watch <paths...>', 'Watch the provided paths recursively', { eager: true } )

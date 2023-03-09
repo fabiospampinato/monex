@@ -34,6 +34,9 @@ The command has the following interface:
 monex --name foo --watch pathToWatch --ignore globToIgnore --exec 'script to execute'
 ```
 
+- `d`, `--delay`
+  - It's optional.
+  - The minimum delay between restarts, 1000ms by default.
 - `-n`, `--name`:
   - It's optional.
   - It provides a name to use for debugging purposes.

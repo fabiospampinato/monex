@@ -27,6 +27,7 @@ type OptionsMultiple = {
   name?: string[],
   restart?: string,
   watch?: string[],
+  delay?: number,
   ignore?: string[],
   exec: string[]
 };
@@ -37,6 +38,7 @@ type OptionsSingle = {
   prefix?: boolean,
   stdin?: boolean,
   watch?: string[],
+  delay?: number,
   ignore?: string[],
   exec: string
 };

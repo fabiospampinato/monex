@@ -200,13 +200,16 @@ class ControllerSingle {
     const ignoreGlobs = this.options.ignore || [];
     const ignore = ( targetPath: string ): boolean => !!ignoreGlobs.length && zeptomatch ( ignoreGlobs, targetPath );
 
-    const restart = debounce ( this.restart, 500 );
+    const delay = this.options.delay ?? 1000;
+    const halfDelay = Math.floor ( delay / 2 );
+
+    const restart = debounce ( this.restart, halfDelay );
 
     const options = {
       native: true,
       recursive: true,
       ignoreInitial: true,
-      debounce: 1000,
+      debounce: delay,
       ignore
     };
 
