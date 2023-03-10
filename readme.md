@@ -108,6 +108,7 @@ type Config = [ // Array of script options to execute
     color?: 'red' | 'green' | 'yellow' | 'blue' | 'magenta' | 'cyan',
     name?: string,
     watch?: string[],
+    delay?: number,
     ignore?: string[],
     exec: string
   },
@@ -124,6 +125,8 @@ type Config = [ // Array of script options to execute
   - It's an optional name assigned to the script, if not provided one will be inferred automatically.
 - `watch`:
   - It works just like the `watch` option in the interactive API.
+- `delay`:
+  - It works just like the `delay` option in the interactive API.
 - `ignore`:
   - It works just like the `ignore` option in the interactive API.
 - `exec`:
