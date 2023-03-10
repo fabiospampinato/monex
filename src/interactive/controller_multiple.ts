@@ -28,7 +28,7 @@ class ControllerMultiple {
       const color = Color.inferColor ( index );
       const exec = this.options.exec[index];
       const ignore = this.options.ignore;
-      const watch = this.options.watch;
+      const watch = this.options.watch?.slice ( index, index + 1 );
       const delay = this.options.delay;
 
       return new ControllerSingle ({ prefix, name, stdin, color, exec, ignore, watch, delay });
