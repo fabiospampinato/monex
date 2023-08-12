@@ -58,7 +58,7 @@ const Formatter = {
     const {toPercentage, toSize, toStatus, toTime} = Formatter.formatters;
 
     const table = new Table ({
-      head: ['PID', 'Name', 'Status', 'Restarts', 'Uptime', 'CPU', 'MEM'].map ( head => color.black ( color.bold ( head ) ) ),
+      head: ['PID', 'Name', 'Status', 'Restarts', 'Uptime', 'CPU', 'MEM'].map ( head => color.black.bold ( head ) ),
       colAligns: ['middle', 'left', 'middle', 'middle', 'right', 'right', 'right']
     });
 

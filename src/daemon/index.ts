@@ -36,9 +36,9 @@ const Daemon = {
       const stdoutLines = stat.stdout.split ( /\r?\n|\r/g ).splice ( -linesNr );
       const stderrLines = stat.stderr.split ( /\r?\n|\r/g ).splice ( -linesNr );
 
-      lines.push ( `[${color.cyan ( color.bold ( stat.name ) )}:${color.bold ( 'stdout' )}]` );
+      lines.push ( `[${color.cyan.bold ( stat.name )}:${color.bold ( 'stdout' )}]` );
       lines.push ( ...stdoutLines );
-      lines.push ( `[${color.cyan ( color.bold ( stat.name ) )}:${color.bold ( 'stderr' )}]` );
+      lines.push ( `[${color.cyan.bold ( stat.name )}:${color.bold ( 'stderr' )}]` );
       lines.push ( ...stderrLines );
 
     }
