@@ -110,7 +110,7 @@ class ControllerSingle {
 
       if ( !isNode ) throw new Error ( 'Only "node" scripts support cluster mode' );
 
-      const execArgsRe = /"([^"]*)"|'([^']*)'|([\w-]+)/g;
+      const execArgsRe = /"([^"]*)"|'([^']*)'|([\w\/\\-]+)/g;
       const execArgs = [...exec.matchAll ( execArgsRe )].map ( match => match[1] || match[2] || match[3] );
 
       const execPath = execArgs[1];
