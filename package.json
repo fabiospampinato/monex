@@ -2,7 +2,7 @@
   "name": "monex",
   "repository": "github:fabiospampinato/monex",
   "description": "Execute one or multiple scripts, interactively or in daemon mode, and restart them whenever they crash or a watched file changes.",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
