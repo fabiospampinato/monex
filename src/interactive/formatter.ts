@@ -9,6 +9,8 @@ import type {Stat} from '~/types';
 
 /* MAIN */
 
+//TODO: Show per-worker stats also
+
 const Formatter = {
 
   /* FORMATTERS API */
@@ -58,8 +60,8 @@ const Formatter = {
     const {toPercentage, toSize, toStatus, toTime} = Formatter.formatters;
 
     const table = new Table ({
-      head: ['PID', 'Name', 'Status', 'Restarts', 'Uptime', 'CPU', 'MEM'].map ( head => color.black.bold ( head ) ),
-      colAligns: ['middle', 'left', 'middle', 'middle', 'right', 'right', 'right']
+      head: ['PID', 'Name', 'Status', 'Workers', 'Restarts', 'Uptime', 'CPU', 'MEM'].map ( head => color.black.bold ( head ) ),
+      colAligns: ['middle', 'left', 'middle', 'middle', 'middle', 'right', 'right', 'right']
     });
 
     stats.forEach ( stat => {
@@ -67,6 +69,7 @@ const Formatter = {
         String ( stat.pid ),
         stat.name,
         toStatus ( stat.online ),
+        String ( stat.cluster ),
         String ( stat.restarts ),
         toTime ( stat.uptime ),
         toPercentage ( stat.cpu ),

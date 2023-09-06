@@ -9,6 +9,8 @@ import Formatter from '~/interactive/formatter';
 
 /* MAIN */
 
+//TODO: Add support for restarting clusters with zero downtime
+
 bin ( 'monexd', 'Execute one or multiple scripts, in daemon mode' )
   /* LOG */
   .command ( 'log', 'Dump logs from the processes' )

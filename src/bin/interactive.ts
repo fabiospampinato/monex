@@ -10,6 +10,7 @@ import execute from '~/interactive';
 bin ( 'monex', 'Execute one or multiple scripts, interactively' )
   .autoExit ( false )
   /* DEFAULT COMMAND */
+  .option ( '-c, --cluster <number...>', 'Number(s) of processes to spawn for this cluster', { eager: true } )
   .option ( '-d, --delay <number>', 'Minimum delay between restarts' )
   .option ( '-n, --name <names...>', 'Name(s) used for debugging purposes', { eager: true } )
   .option ( '-r, --restart <name>', 'Name of the script to restart when restarting manually' )

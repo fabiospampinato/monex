@@ -29,9 +29,10 @@ class ControllerMultiple {
       const exec = this.options.exec[index];
       const ignore = this.options.ignore;
       const watch = this.options.watch?.slice ( index, index + 1 );
+      const cluster = this.options.cluster?.[index];
       const delay = this.options.delay;
 
-      return new ControllerSingle ({ prefix, name, stdin, color, exec, ignore, watch, delay });
+      return new ControllerSingle ({ prefix, name, stdin, color, exec, ignore, watch, cluster, delay });
 
     });
 

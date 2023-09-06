@@ -2,7 +2,9 @@
 /* IMPORT */
 
 import {debounce} from 'dettle';
+import dirname from 'tiny-dirname';
 import {spawn} from 'node:child_process';
+import os from 'node:os';
 import path from 'node:path';
 import process from 'node:process';
 import {color} from 'specialist';
@@ -13,7 +15,7 @@ import Logger from '~/interactive/logger';
 import PID from '~/interactive/pid';
 import Stdin from '~/interactive/stdin';
 import type {Buffer} from 'node:buffer';
-import type {OptionsSingle, Process, Stat} from '~/types';
+import type {OptionsSingle, OptionsCluster, Process, Stat} from '~/types';
 
 /* MAIN */
 
@@ -23,6 +25,7 @@ class ControllerSingle {
 
   private options: OptionsSingle;
   private name: string;
+  private cluster: number;
   private restarting: boolean;
   private restarts: number;
   private stdout: string;
@@ -36,6 +39,7 @@ class ControllerSingle {
 
     this.options = options;
     this.name = options.name || '';
+    this.cluster = ( typeof options.cluster === 'number' && options.cluster >= 0 && options.cluster !== 1 ) ? options.cluster || os.cpus ().length : 1;
     this.restarting = false;
     this.restarts = -1;
     this.stdout = '';
@@ -97,10 +101,40 @@ class ControllerSingle {
 
     const exec = this.options.exec.replace ( /^npm:/, 'npm run ' );
 
-    const proc: Process = this.process = spawn ( exec, {
-      stdio: ['ignore', null, null],
-      shell: true
-    });
+    let proc: Process;
+
+    if ( this.cluster > 1 ) { // Spawning in cluster mode
+
+      const nodeRe = /^node\s+/;
+      const isNode = nodeRe.test ( exec );
+
+      if ( !isNode ) throw new Error ( 'Only "node" scripts support cluster mode' );
+
+      const execArgsRe = /"([^"]*)"|'([^']*)'|([\w-]+)/g;
+      const execArgs = [...exec.matchAll ( execArgsRe )].map ( match => match[1] || match[2] || match[3] );
+
+      const execPath = execArgs[1];
+      const args = execArgs.slice ( 2 );
+
+      const name = this.options.name;
+      const delay = this.options.delay ?? 1000;
+      const size = this.cluster;
+      const options: OptionsCluster = { name, exec: execPath, args, delay, size };
+      const controllerPath = path.join ( dirname ( import.meta.url ), 'controller_cluster.js' );
+
+      proc = this.process = spawn ( 'node', [controllerPath, JSON.stringify ( options )], {
+        stdio: ['ignore', null, null],
+        shell: false
+      });
+
+    } else { // Spawn in single mode
+
+      proc = this.process = spawn ( exec, {
+        stdio: ['ignore', null, null],
+        shell: true
+      });
+
+    }
 
     const updatePids = async (): Promise<void> => {
       if ( this.process !== proc ) return;
@@ -171,6 +205,7 @@ class ControllerSingle {
       pid: pid || -1,
       name: this.options.name || '',
       online: !!pid,
+      cluster: this.cluster,
       restarts: this.restarts,
       birthtime: usage?.birthtime || 0,
       uptime: usage?.uptime || 0,

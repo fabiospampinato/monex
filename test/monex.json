@@ -5,10 +5,12 @@
   },
   {
     "name": "test2",
-    "exec": "node test/index.js"
+    "exec": "node test/index.js",
+    "cluster": 0
   },
   {
     "name": "test3",
-    "exec": "node test/index.js"
+    "exec": "node test/index.js",
+    "cluster": 3
   }
 ]

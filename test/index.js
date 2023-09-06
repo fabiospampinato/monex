@@ -24,7 +24,7 @@ setInterval ( () => {
 
     console.log ( 'Child about to crash...', Date.now () );
 
-    process.exit ();
+    process.exit ( 1 );
 
   }
 

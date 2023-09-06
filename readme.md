@@ -1,6 +1,6 @@
 # Monex
 
-Execute one or multiple scripts, interactively or in daemon mode, and restart them whenever they crash or a watched file changes.
+Execute one or multiple scripts, interactively or in daemon mode, individually or in cluster mode, and restart them whenever they crash or a watched file changes.
 
 ## Features
 
@@ -34,6 +34,10 @@ The command has the following interface:
 monex --name foo --watch pathToWatch --ignore globToIgnore --exec 'script to execute'
 ```
 
+- `-c`, `--cluster`
+  - It's optional.
+  - The number of processes to execute the script in, 1 by default.
+  - This option is advanced, and mainly intended for clustering Node servers in daemon mode.
 - `-d`, `--delay`
   - It's optional.
   - The minimum delay between restarts, 1000ms by default.
@@ -108,6 +112,7 @@ type Config = [ // Array of script options to execute
     color?: 'red' | 'green' | 'yellow' | 'blue' | 'magenta' | 'cyan',
     name?: string,
     watch?: string[],
+    cluster: 0,
     delay?: number,
     ignore?: string[],
     exec: string
@@ -125,6 +130,8 @@ type Config = [ // Array of script options to execute
   - It's an optional name assigned to the script, if not provided one will be inferred automatically.
 - `watch`:
   - It works just like the `watch` option in the interactive API.
+- `cluster`:
+  - It works just like the `cluster` option in the interactive API, `0` for auto, `1` by default.
 - `delay`:
   - It works just like the `delay` option in the interactive API.
 - `ignore`:

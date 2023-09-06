@@ -9,7 +9,8 @@ import type {IController, OptionsMultiple, OptionsSingle} from '~/types';
 
 const execute = ( options: Partial<OptionsMultiple | OptionsSingle> ): IController => {
 
-  const {delay, exec, ignore, name, watch} = options;
+  const {cluster, delay, exec, ignore, name, watch} = options;
+  const clusters = Array.isArray ( cluster ) ? cluster.map ( Number ) : ( cluster !== undefined ? [cluster].map ( Number ) : [] );
   const names = Array.isArray ( name ) ? name : ( name ? [name] : [] );
   const restart = ( 'restart' in options ) ? options.restart : undefined;
   const execs = Array.isArray ( exec ) ? exec : ( exec ? [exec] : [] );
@@ -28,6 +29,7 @@ const execute = ( options: Partial<OptionsMultiple | OptionsSingle> ): IControll
       exec: execs,
       ignore: ignores,
       watch: watches,
+      cluster: clusters,
       delay
     });
 
@@ -42,6 +44,7 @@ const execute = ( options: Partial<OptionsMultiple | OptionsSingle> ): IControll
       exec: execs[0],
       ignore: ignores,
       watch: watches,
+      cluster: clusters[0],
       delay
     });
 

@@ -27,6 +27,7 @@ type OptionsMultiple = {
   name?: string[],
   restart?: string,
   watch?: string[],
+  cluster?: number[],
   delay?: number,
   ignore?: string[],
   exec: string[]
@@ -38,9 +39,18 @@ type OptionsSingle = {
   prefix?: boolean,
   stdin?: boolean,
   watch?: string[],
+  cluster?: number,
   delay?: number,
   ignore?: string[],
-  exec: string
+  exec: string,
+};
+
+type OptionsCluster = {
+  name?: string,
+  exec: string,
+  args?: string[],
+  delay?: number,
+  size?: number
 };
 
 type Process = ChildProcessByStdio<null, Readable, Readable> & {
@@ -51,6 +61,7 @@ type Stat = {
   pid: number,
   name: string,
   online: boolean,
+  cluster: number,
   restarts: number,
   birthtime: number,
   uptime: number,
@@ -69,4 +80,4 @@ type Usage = {
 
 /* EXPORT */
 
-export type {Callback, Color, Disposer, Event, IController, OptionsConfig, OptionsMultiple, OptionsSingle, Process, Stat, Usage};
+export type {Callback, Color, Disposer, Event, IController, OptionsConfig, OptionsMultiple, OptionsSingle, OptionsCluster, Process, Stat, Usage};
