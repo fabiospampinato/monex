@@ -57,7 +57,7 @@ monex --name foo --watch pathToWatch --ignore globToIgnore --exec 'script to exe
 - `-i`, `--ignore`:
   - It's optional.
   - Globs are matched against absolute paths pointing to watched files and folders.
-  - Globs interally are parsed using [`zeptomatch`](https://github.com/fabiospampinato/zeptomatch).
+  - Globs internally are parsed using [`zeptomatch`](https://github.com/fabiospampinato/zeptomatch).
   - You can use multiple ignore globs by writing multiple globs after `--ignore` or by using the option multiple times.
   - Remember to quote globs otherwise they might get expanded by your shell, e.g. `'**/node_modules/**'`.
 - `-x`, `--exec`:
@@ -197,7 +197,7 @@ monex-daemon stat --pretty
 
 - `-p`, `--pretty`:
   - It's optional.
-  - It ouputs stats in a more human-friendly way not meant for post processing.
+  - It outputs stats in a more human-friendly way not meant for post processing.
 
 #### Programmatic API
 
